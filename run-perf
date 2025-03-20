@@ -1,0 +1,49 @@
+#!/bin/bash 
+
+if [ "$#" -lt 2 ]; then
+	echo "Usage: $0 <executable-program> <num-iterations>"
+	exit 1
+fi
+
+PROGRAM=$1
+ITERATIONS=$2
+
+SUM_MEMORY=0
+SUM_INSTRUCTIONS=0
+SUM_CYCLES=0
+
+MAX_MEMORY=0
+MAX_INSTRUCTIONS=0
+MAX_CYCLES=0
+
+for i in $(seq 1 $ITERATIONS); do
+	OUTPUT=$(perf stat -e instructions:u $PROGRAM 2>&1)
+	INSTRUCTIONS=$(echo "$OUTPUT" | grep "instructions" | awk '{print $1}' | tr -d ',')
+	SUM_INSTRUCTIONS=$((SUM_INSTRUCTIONS + INSTRUCTIONS))
+	if [ $INSTRUCTIONS -gt $MAX_INSTRUCTIONS ]; then
+		MAX_INSTRUCTIONS=$INSTRUCTIONS
+	fi
+
+	OUTPUT=$(perf stat -e cycles:u $PROGRAM 2>&1)
+	CYCLES=$(echo "$OUTPUT" | grep "cycles" | awk '{print $1}' | tr -d ',')
+	SUM_CYCLES=$((SUM_CYCLES + CYCLES))
+	if  [ $CYCLES -gt $MAX_CYCLES ]; then
+		MAX_CYCLES=$CYCLES
+	fi
+
+	OUTPUT=$(/usr/bin/time -v $PROGRAM 2>&1)
+	MEMORY=$(echo "$OUTPUT" | grep "Maximum resident set size (kbytes)" | awk '{print $6}')
+	SUM_MEMORY=$((SUM_MEMORY + MEMORY))
+	if [ $MEMORY -gt $MAX_MEMORY ]; then
+		MAX_MEMORY=$MEMORY
+	fi	
+done
+
+AVERAGE_INSTRUCTIONS=$(echo "scale=2; $SUM_INSTRUCTIONS / $ITERATIONS" | bc)
+AVERAGE_MEMORY=$(echo "scale=2; $SUM_MEMORY / $ITERATIONS" | bc)
+AVERAGE_CYCLES=$(echo "scale=2; $SUM_CYCLES / $ITERATIONS" | bc)
+
+echo "Using program $PROGRAM and looping $ITERATIONS times."
+echo "(Perf) Average Instruction count: $AVERAGE_INSTRUCTIONS. Maximum Instruction count: $MAX_INSTRUCTIONS"
+echo "(Time) Average Memory usage: $AVERAGE_MEMORY. Maximum Memory usage: $MAX_MEMORY"
+echo "(Perf) Average Cycle count: $AVERAGE_CYCLES. Maximum Cycle count: $MAX_CYCLES"

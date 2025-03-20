@@ -1,0 +1,1233 @@
+Start testing: Mar 11 12:27 CET
+----------------------------------------------------------
+1/82 Testing: genkat_crypto_aead_asconaead128_ref
+1/82 Test: genkat_crypto_aead_asconaead128_ref
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_aead_asconaead128_ref" "-DALG=asconaead128" "-DCRYPTO=aead" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_aead_asconaead128_ref" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_aead_asconaead128_ref" end time: Mar 11 12:27 CET
+"genkat_crypto_aead_asconaead128_ref" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/82 Testing: genkat_crypto_aead_asconaead128_opt64
+2/82 Test: genkat_crypto_aead_asconaead128_opt64
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_aead_asconaead128_opt64" "-DALG=asconaead128" "-DCRYPTO=aead" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_aead_asconaead128_opt64" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_aead_asconaead128_opt64" end time: Mar 11 12:27 CET
+"genkat_crypto_aead_asconaead128_opt64" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/82 Testing: genkat_crypto_aead_asconaead128_opt64_lowsize
+3/82 Test: genkat_crypto_aead_asconaead128_opt64_lowsize
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_aead_asconaead128_opt64_lowsize" "-DALG=asconaead128" "-DCRYPTO=aead" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_aead_asconaead128_opt64_lowsize" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_aead_asconaead128_opt64_lowsize" end time: Mar 11 12:27 CET
+"genkat_crypto_aead_asconaead128_opt64_lowsize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/82 Testing: genkat_crypto_aead_asconaead128_opt32
+4/82 Test: genkat_crypto_aead_asconaead128_opt32
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_aead_asconaead128_opt32" "-DALG=asconaead128" "-DCRYPTO=aead" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_aead_asconaead128_opt32" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_aead_asconaead128_opt32" end time: Mar 11 12:27 CET
+"genkat_crypto_aead_asconaead128_opt32" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/82 Testing: genkat_crypto_aead_asconaead128_opt32_lowsize
+5/82 Test: genkat_crypto_aead_asconaead128_opt32_lowsize
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_aead_asconaead128_opt32_lowsize" "-DALG=asconaead128" "-DCRYPTO=aead" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_aead_asconaead128_opt32_lowsize" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_aead_asconaead128_opt32_lowsize" end time: Mar 11 12:27 CET
+"genkat_crypto_aead_asconaead128_opt32_lowsize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/82 Testing: genkat_crypto_aead_asconaead128_bi32
+6/82 Test: genkat_crypto_aead_asconaead128_bi32
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_aead_asconaead128_bi32" "-DALG=asconaead128" "-DCRYPTO=aead" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_aead_asconaead128_bi32" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_aead_asconaead128_bi32" end time: Mar 11 12:27 CET
+"genkat_crypto_aead_asconaead128_bi32" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/82 Testing: genkat_crypto_aead_asconaead128_bi32_lowsize
+7/82 Test: genkat_crypto_aead_asconaead128_bi32_lowsize
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_aead_asconaead128_bi32_lowsize" "-DALG=asconaead128" "-DCRYPTO=aead" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_aead_asconaead128_bi32_lowsize" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_aead_asconaead128_bi32_lowsize" end time: Mar 11 12:27 CET
+"genkat_crypto_aead_asconaead128_bi32_lowsize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/82 Testing: genkat_crypto_aead_asconaead128_bi32_lowreg
+8/82 Test: genkat_crypto_aead_asconaead128_bi32_lowreg
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_aead_asconaead128_bi32_lowreg" "-DALG=asconaead128" "-DCRYPTO=aead" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_aead_asconaead128_bi32_lowreg" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_aead_asconaead128_bi32_lowreg" end time: Mar 11 12:27 CET
+"genkat_crypto_aead_asconaead128_bi32_lowreg" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/82 Testing: genkat_crypto_aead_asconaead128_esp32
+9/82 Test: genkat_crypto_aead_asconaead128_esp32
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_aead_asconaead128_esp32" "-DALG=asconaead128" "-DCRYPTO=aead" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_aead_asconaead128_esp32" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_aead_asconaead128_esp32" end time: Mar 11 12:27 CET
+"genkat_crypto_aead_asconaead128_esp32" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/82 Testing: genkat_crypto_aead_asconaead128_opt8
+10/82 Test: genkat_crypto_aead_asconaead128_opt8
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_aead_asconaead128_opt8" "-DALG=asconaead128" "-DCRYPTO=aead" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_aead_asconaead128_opt8" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_aead_asconaead128_opt8" end time: Mar 11 12:27 CET
+"genkat_crypto_aead_asconaead128_opt8" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/82 Testing: genkat_crypto_aead_asconaead128_opt8_lowsize
+11/82 Test: genkat_crypto_aead_asconaead128_opt8_lowsize
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_aead_asconaead128_opt8_lowsize" "-DALG=asconaead128" "-DCRYPTO=aead" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_aead_asconaead128_opt8_lowsize" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_aead_asconaead128_opt8_lowsize" end time: Mar 11 12:27 CET
+"genkat_crypto_aead_asconaead128_opt8_lowsize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/82 Testing: genkat_crypto_aead_asconaead128_bi8
+12/82 Test: genkat_crypto_aead_asconaead128_bi8
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_aead_asconaead128_bi8" "-DALG=asconaead128" "-DCRYPTO=aead" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_aead_asconaead128_bi8" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_aead_asconaead128_bi8" end time: Mar 11 12:27 CET
+"genkat_crypto_aead_asconaead128_bi8" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/82 Testing: genkat_crypto_aead_asconaeadxof128_ref
+13/82 Test: genkat_crypto_aead_asconaeadxof128_ref
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_aead_asconaeadxof128_ref" "-DALG=asconaeadxof128" "-DCRYPTO=aead" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_aead_asconaeadxof128_ref" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_aead_asconaeadxof128_ref" end time: Mar 11 12:27 CET
+"genkat_crypto_aead_asconaeadxof128_ref" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/82 Testing: genkat_crypto_aead_asconaeadxof128_opt64
+14/82 Test: genkat_crypto_aead_asconaeadxof128_opt64
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_aead_asconaeadxof128_opt64" "-DALG=asconaeadxof128" "-DCRYPTO=aead" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_aead_asconaeadxof128_opt64" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_aead_asconaeadxof128_opt64" end time: Mar 11 12:27 CET
+"genkat_crypto_aead_asconaeadxof128_opt64" time elapsed: 00:00:00
+----------------------------------------------------------
+
+15/82 Testing: genkat_crypto_aead_asconaeadxof128_opt64_lowsize
+15/82 Test: genkat_crypto_aead_asconaeadxof128_opt64_lowsize
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_aead_asconaeadxof128_opt64_lowsize" "-DALG=asconaeadxof128" "-DCRYPTO=aead" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_aead_asconaeadxof128_opt64_lowsize" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_aead_asconaeadxof128_opt64_lowsize" end time: Mar 11 12:27 CET
+"genkat_crypto_aead_asconaeadxof128_opt64_lowsize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/82 Testing: genkat_crypto_aead_asconaeadxof128_opt32
+16/82 Test: genkat_crypto_aead_asconaeadxof128_opt32
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_aead_asconaeadxof128_opt32" "-DALG=asconaeadxof128" "-DCRYPTO=aead" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_aead_asconaeadxof128_opt32" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_aead_asconaeadxof128_opt32" end time: Mar 11 12:27 CET
+"genkat_crypto_aead_asconaeadxof128_opt32" time elapsed: 00:00:00
+----------------------------------------------------------
+
+17/82 Testing: genkat_crypto_aead_asconaeadxof128_opt32_lowsize
+17/82 Test: genkat_crypto_aead_asconaeadxof128_opt32_lowsize
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_aead_asconaeadxof128_opt32_lowsize" "-DALG=asconaeadxof128" "-DCRYPTO=aead" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_aead_asconaeadxof128_opt32_lowsize" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_aead_asconaeadxof128_opt32_lowsize" end time: Mar 11 12:27 CET
+"genkat_crypto_aead_asconaeadxof128_opt32_lowsize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+18/82 Testing: genkat_crypto_aead_asconaeadxof128_bi32
+18/82 Test: genkat_crypto_aead_asconaeadxof128_bi32
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_aead_asconaeadxof128_bi32" "-DALG=asconaeadxof128" "-DCRYPTO=aead" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_aead_asconaeadxof128_bi32" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_aead_asconaeadxof128_bi32" end time: Mar 11 12:27 CET
+"genkat_crypto_aead_asconaeadxof128_bi32" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/82 Testing: genkat_crypto_aead_asconaeadxof128_bi32_lowsize
+19/82 Test: genkat_crypto_aead_asconaeadxof128_bi32_lowsize
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_aead_asconaeadxof128_bi32_lowsize" "-DALG=asconaeadxof128" "-DCRYPTO=aead" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_aead_asconaeadxof128_bi32_lowsize" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_aead_asconaeadxof128_bi32_lowsize" end time: Mar 11 12:27 CET
+"genkat_crypto_aead_asconaeadxof128_bi32_lowsize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+20/82 Testing: genkat_crypto_aead_asconaeadxof128_bi32_lowreg
+20/82 Test: genkat_crypto_aead_asconaeadxof128_bi32_lowreg
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_aead_asconaeadxof128_bi32_lowreg" "-DALG=asconaeadxof128" "-DCRYPTO=aead" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_aead_asconaeadxof128_bi32_lowreg" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_aead_asconaeadxof128_bi32_lowreg" end time: Mar 11 12:27 CET
+"genkat_crypto_aead_asconaeadxof128_bi32_lowreg" time elapsed: 00:00:00
+----------------------------------------------------------
+
+21/82 Testing: genkat_crypto_aead_asconaeadxof128_esp32
+21/82 Test: genkat_crypto_aead_asconaeadxof128_esp32
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_aead_asconaeadxof128_esp32" "-DALG=asconaeadxof128" "-DCRYPTO=aead" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_aead_asconaeadxof128_esp32" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_aead_asconaeadxof128_esp32" end time: Mar 11 12:27 CET
+"genkat_crypto_aead_asconaeadxof128_esp32" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/82 Testing: genkat_crypto_aead_asconaeadxof128_opt8
+22/82 Test: genkat_crypto_aead_asconaeadxof128_opt8
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_aead_asconaeadxof128_opt8" "-DALG=asconaeadxof128" "-DCRYPTO=aead" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_aead_asconaeadxof128_opt8" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_aead_asconaeadxof128_opt8" end time: Mar 11 12:27 CET
+"genkat_crypto_aead_asconaeadxof128_opt8" time elapsed: 00:00:00
+----------------------------------------------------------
+
+23/82 Testing: genkat_crypto_aead_asconaeadxof128_opt8_lowsize
+23/82 Test: genkat_crypto_aead_asconaeadxof128_opt8_lowsize
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_aead_asconaeadxof128_opt8_lowsize" "-DALG=asconaeadxof128" "-DCRYPTO=aead" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_aead_asconaeadxof128_opt8_lowsize" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_aead_asconaeadxof128_opt8_lowsize" end time: Mar 11 12:27 CET
+"genkat_crypto_aead_asconaeadxof128_opt8_lowsize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+24/82 Testing: genkat_crypto_aead_asconaeadxof128_bi8
+24/82 Test: genkat_crypto_aead_asconaeadxof128_bi8
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_aead_asconaeadxof128_bi8" "-DALG=asconaeadxof128" "-DCRYPTO=aead" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_aead_asconaeadxof128_bi8" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_aead_asconaeadxof128_bi8" end time: Mar 11 12:27 CET
+"genkat_crypto_aead_asconaeadxof128_bi8" time elapsed: 00:00:00
+----------------------------------------------------------
+
+25/82 Testing: genkat_crypto_hash_asconhash256_ref
+25/82 Test: genkat_crypto_hash_asconhash256_ref
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconhash256_ref" "-DALG=asconhash256" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconhash256_ref" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconhash256_ref" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconhash256_ref" time elapsed: 00:00:00
+----------------------------------------------------------
+
+26/82 Testing: genkat_crypto_hash_asconhash256_opt64
+26/82 Test: genkat_crypto_hash_asconhash256_opt64
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconhash256_opt64" "-DALG=asconhash256" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconhash256_opt64" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconhash256_opt64" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconhash256_opt64" time elapsed: 00:00:00
+----------------------------------------------------------
+
+27/82 Testing: genkat_crypto_hash_asconhash256_opt64_lowsize
+27/82 Test: genkat_crypto_hash_asconhash256_opt64_lowsize
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconhash256_opt64_lowsize" "-DALG=asconhash256" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconhash256_opt64_lowsize" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconhash256_opt64_lowsize" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconhash256_opt64_lowsize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+28/82 Testing: genkat_crypto_hash_asconhash256_opt32
+28/82 Test: genkat_crypto_hash_asconhash256_opt32
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconhash256_opt32" "-DALG=asconhash256" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconhash256_opt32" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconhash256_opt32" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconhash256_opt32" time elapsed: 00:00:00
+----------------------------------------------------------
+
+29/82 Testing: genkat_crypto_hash_asconhash256_opt32_lowsize
+29/82 Test: genkat_crypto_hash_asconhash256_opt32_lowsize
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconhash256_opt32_lowsize" "-DALG=asconhash256" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconhash256_opt32_lowsize" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconhash256_opt32_lowsize" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconhash256_opt32_lowsize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+30/82 Testing: genkat_crypto_hash_asconhash256_bi32
+30/82 Test: genkat_crypto_hash_asconhash256_bi32
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconhash256_bi32" "-DALG=asconhash256" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconhash256_bi32" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconhash256_bi32" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconhash256_bi32" time elapsed: 00:00:00
+----------------------------------------------------------
+
+31/82 Testing: genkat_crypto_hash_asconhash256_bi32_lowsize
+31/82 Test: genkat_crypto_hash_asconhash256_bi32_lowsize
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconhash256_bi32_lowsize" "-DALG=asconhash256" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconhash256_bi32_lowsize" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconhash256_bi32_lowsize" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconhash256_bi32_lowsize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+32/82 Testing: genkat_crypto_hash_asconhash256_bi32_lowreg
+32/82 Test: genkat_crypto_hash_asconhash256_bi32_lowreg
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconhash256_bi32_lowreg" "-DALG=asconhash256" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconhash256_bi32_lowreg" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconhash256_bi32_lowreg" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconhash256_bi32_lowreg" time elapsed: 00:00:00
+----------------------------------------------------------
+
+33/82 Testing: genkat_crypto_hash_asconhash256_esp32
+33/82 Test: genkat_crypto_hash_asconhash256_esp32
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconhash256_esp32" "-DALG=asconhash256" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconhash256_esp32" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconhash256_esp32" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconhash256_esp32" time elapsed: 00:00:00
+----------------------------------------------------------
+
+34/82 Testing: genkat_crypto_hash_asconhash256_opt8
+34/82 Test: genkat_crypto_hash_asconhash256_opt8
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconhash256_opt8" "-DALG=asconhash256" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconhash256_opt8" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconhash256_opt8" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconhash256_opt8" time elapsed: 00:00:00
+----------------------------------------------------------
+
+35/82 Testing: genkat_crypto_hash_asconhash256_opt8_lowsize
+35/82 Test: genkat_crypto_hash_asconhash256_opt8_lowsize
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconhash256_opt8_lowsize" "-DALG=asconhash256" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconhash256_opt8_lowsize" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconhash256_opt8_lowsize" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconhash256_opt8_lowsize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+36/82 Testing: genkat_crypto_hash_asconhash256_bi8
+36/82 Test: genkat_crypto_hash_asconhash256_bi8
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconhash256_bi8" "-DALG=asconhash256" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconhash256_bi8" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.09 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconhash256_bi8" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconhash256_bi8" time elapsed: 00:00:00
+----------------------------------------------------------
+
+37/82 Testing: genkat_crypto_hash_asconxof128_ref
+37/82 Test: genkat_crypto_hash_asconxof128_ref
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconxof128_ref" "-DALG=asconxof128" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconxof128_ref" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconxof128_ref" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconxof128_ref" time elapsed: 00:00:00
+----------------------------------------------------------
+
+38/82 Testing: genkat_crypto_hash_asconxof128_opt64
+38/82 Test: genkat_crypto_hash_asconxof128_opt64
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconxof128_opt64" "-DALG=asconxof128" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconxof128_opt64" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconxof128_opt64" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconxof128_opt64" time elapsed: 00:00:00
+----------------------------------------------------------
+
+39/82 Testing: genkat_crypto_hash_asconxof128_opt64_lowsize
+39/82 Test: genkat_crypto_hash_asconxof128_opt64_lowsize
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconxof128_opt64_lowsize" "-DALG=asconxof128" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconxof128_opt64_lowsize" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconxof128_opt64_lowsize" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconxof128_opt64_lowsize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+40/82 Testing: genkat_crypto_hash_asconxof128_opt32
+40/82 Test: genkat_crypto_hash_asconxof128_opt32
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconxof128_opt32" "-DALG=asconxof128" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconxof128_opt32" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconxof128_opt32" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconxof128_opt32" time elapsed: 00:00:00
+----------------------------------------------------------
+
+41/82 Testing: genkat_crypto_hash_asconxof128_opt32_lowsize
+41/82 Test: genkat_crypto_hash_asconxof128_opt32_lowsize
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconxof128_opt32_lowsize" "-DALG=asconxof128" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconxof128_opt32_lowsize" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconxof128_opt32_lowsize" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconxof128_opt32_lowsize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+42/82 Testing: genkat_crypto_hash_asconxof128_bi32
+42/82 Test: genkat_crypto_hash_asconxof128_bi32
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconxof128_bi32" "-DALG=asconxof128" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconxof128_bi32" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconxof128_bi32" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconxof128_bi32" time elapsed: 00:00:00
+----------------------------------------------------------
+
+43/82 Testing: genkat_crypto_hash_asconxof128_bi32_lowsize
+43/82 Test: genkat_crypto_hash_asconxof128_bi32_lowsize
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconxof128_bi32_lowsize" "-DALG=asconxof128" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconxof128_bi32_lowsize" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconxof128_bi32_lowsize" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconxof128_bi32_lowsize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+44/82 Testing: genkat_crypto_hash_asconxof128_bi32_lowreg
+44/82 Test: genkat_crypto_hash_asconxof128_bi32_lowreg
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconxof128_bi32_lowreg" "-DALG=asconxof128" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconxof128_bi32_lowreg" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconxof128_bi32_lowreg" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconxof128_bi32_lowreg" time elapsed: 00:00:00
+----------------------------------------------------------
+
+45/82 Testing: genkat_crypto_hash_asconxof128_esp32
+45/82 Test: genkat_crypto_hash_asconxof128_esp32
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconxof128_esp32" "-DALG=asconxof128" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconxof128_esp32" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconxof128_esp32" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconxof128_esp32" time elapsed: 00:00:00
+----------------------------------------------------------
+
+46/82 Testing: genkat_crypto_hash_asconxof128_opt8
+46/82 Test: genkat_crypto_hash_asconxof128_opt8
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconxof128_opt8" "-DALG=asconxof128" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconxof128_opt8" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconxof128_opt8" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconxof128_opt8" time elapsed: 00:00:00
+----------------------------------------------------------
+
+47/82 Testing: genkat_crypto_hash_asconxof128_opt8_lowsize
+47/82 Test: genkat_crypto_hash_asconxof128_opt8_lowsize
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconxof128_opt8_lowsize" "-DALG=asconxof128" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconxof128_opt8_lowsize" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.09 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconxof128_opt8_lowsize" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconxof128_opt8_lowsize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+48/82 Testing: genkat_crypto_hash_asconxof128_bi8
+48/82 Test: genkat_crypto_hash_asconxof128_bi8
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconxof128_bi8" "-DALG=asconxof128" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconxof128_bi8" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.09 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconxof128_bi8" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconxof128_bi8" time elapsed: 00:00:00
+----------------------------------------------------------
+
+49/82 Testing: genkat_crypto_hash_asconaeadxof128_ref
+49/82 Test: genkat_crypto_hash_asconaeadxof128_ref
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconaeadxof128_ref" "-DALG=asconaeadxof128" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconaeadxof128_ref" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconaeadxof128_ref" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconaeadxof128_ref" time elapsed: 00:00:00
+----------------------------------------------------------
+
+50/82 Testing: genkat_crypto_hash_asconaeadxof128_opt64
+50/82 Test: genkat_crypto_hash_asconaeadxof128_opt64
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconaeadxof128_opt64" "-DALG=asconaeadxof128" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconaeadxof128_opt64" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconaeadxof128_opt64" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconaeadxof128_opt64" time elapsed: 00:00:00
+----------------------------------------------------------
+
+51/82 Testing: genkat_crypto_hash_asconaeadxof128_opt64_lowsize
+51/82 Test: genkat_crypto_hash_asconaeadxof128_opt64_lowsize
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconaeadxof128_opt64_lowsize" "-DALG=asconaeadxof128" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconaeadxof128_opt64_lowsize" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconaeadxof128_opt64_lowsize" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconaeadxof128_opt64_lowsize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+52/82 Testing: genkat_crypto_hash_asconaeadxof128_opt32
+52/82 Test: genkat_crypto_hash_asconaeadxof128_opt32
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconaeadxof128_opt32" "-DALG=asconaeadxof128" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconaeadxof128_opt32" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconaeadxof128_opt32" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconaeadxof128_opt32" time elapsed: 00:00:00
+----------------------------------------------------------
+
+53/82 Testing: genkat_crypto_hash_asconaeadxof128_opt32_lowsize
+53/82 Test: genkat_crypto_hash_asconaeadxof128_opt32_lowsize
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconaeadxof128_opt32_lowsize" "-DALG=asconaeadxof128" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconaeadxof128_opt32_lowsize" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconaeadxof128_opt32_lowsize" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconaeadxof128_opt32_lowsize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+54/82 Testing: genkat_crypto_hash_asconaeadxof128_bi32
+54/82 Test: genkat_crypto_hash_asconaeadxof128_bi32
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconaeadxof128_bi32" "-DALG=asconaeadxof128" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconaeadxof128_bi32" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconaeadxof128_bi32" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconaeadxof128_bi32" time elapsed: 00:00:00
+----------------------------------------------------------
+
+55/82 Testing: genkat_crypto_hash_asconaeadxof128_bi32_lowsize
+55/82 Test: genkat_crypto_hash_asconaeadxof128_bi32_lowsize
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconaeadxof128_bi32_lowsize" "-DALG=asconaeadxof128" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconaeadxof128_bi32_lowsize" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconaeadxof128_bi32_lowsize" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconaeadxof128_bi32_lowsize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+56/82 Testing: genkat_crypto_hash_asconaeadxof128_bi32_lowreg
+56/82 Test: genkat_crypto_hash_asconaeadxof128_bi32_lowreg
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconaeadxof128_bi32_lowreg" "-DALG=asconaeadxof128" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconaeadxof128_bi32_lowreg" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconaeadxof128_bi32_lowreg" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconaeadxof128_bi32_lowreg" time elapsed: 00:00:00
+----------------------------------------------------------
+
+57/82 Testing: genkat_crypto_hash_asconaeadxof128_esp32
+57/82 Test: genkat_crypto_hash_asconaeadxof128_esp32
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconaeadxof128_esp32" "-DALG=asconaeadxof128" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconaeadxof128_esp32" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconaeadxof128_esp32" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconaeadxof128_esp32" time elapsed: 00:00:00
+----------------------------------------------------------
+
+58/82 Testing: genkat_crypto_hash_asconaeadxof128_opt8
+58/82 Test: genkat_crypto_hash_asconaeadxof128_opt8
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconaeadxof128_opt8" "-DALG=asconaeadxof128" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconaeadxof128_opt8" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.09 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconaeadxof128_opt8" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconaeadxof128_opt8" time elapsed: 00:00:00
+----------------------------------------------------------
+
+59/82 Testing: genkat_crypto_hash_asconaeadxof128_opt8_lowsize
+59/82 Test: genkat_crypto_hash_asconaeadxof128_opt8_lowsize
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconaeadxof128_opt8_lowsize" "-DALG=asconaeadxof128" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconaeadxof128_opt8_lowsize" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconaeadxof128_opt8_lowsize" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconaeadxof128_opt8_lowsize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+60/82 Testing: genkat_crypto_hash_asconaeadxof128_bi8
+60/82 Test: genkat_crypto_hash_asconaeadxof128_bi8
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_hash_asconaeadxof128_bi8" "-DALG=asconaeadxof128" "-DCRYPTO=hash" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_hash_asconaeadxof128_bi8" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.09 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_hash_asconaeadxof128_bi8" end time: Mar 11 12:27 CET
+"genkat_crypto_hash_asconaeadxof128_bi8" time elapsed: 00:00:00
+----------------------------------------------------------
+
+61/82 Testing: genkat_crypto_cxof_asconcxof128_ref
+61/82 Test: genkat_crypto_cxof_asconcxof128_ref
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_cxof_asconcxof128_ref" "-DALG=asconcxof128" "-DCRYPTO=cxof" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_cxof_asconcxof128_ref" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_cxof_asconcxof128_ref" end time: Mar 11 12:27 CET
+"genkat_crypto_cxof_asconcxof128_ref" time elapsed: 00:00:00
+----------------------------------------------------------
+
+62/82 Testing: genkat_crypto_auth_asconmacv13_ref
+62/82 Test: genkat_crypto_auth_asconmacv13_ref
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_auth_asconmacv13_ref" "-DALG=asconmacv13" "-DCRYPTO=auth" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_auth_asconmacv13_ref" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_auth_asconmacv13_ref" end time: Mar 11 12:27 CET
+"genkat_crypto_auth_asconmacv13_ref" time elapsed: 00:00:00
+----------------------------------------------------------
+
+63/82 Testing: genkat_crypto_auth_asconmacv13_opt64
+63/82 Test: genkat_crypto_auth_asconmacv13_opt64
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_auth_asconmacv13_opt64" "-DALG=asconmacv13" "-DCRYPTO=auth" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_auth_asconmacv13_opt64" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_auth_asconmacv13_opt64" end time: Mar 11 12:27 CET
+"genkat_crypto_auth_asconmacv13_opt64" time elapsed: 00:00:00
+----------------------------------------------------------
+
+64/82 Testing: genkat_crypto_auth_asconmacv13_opt32
+64/82 Test: genkat_crypto_auth_asconmacv13_opt32
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_auth_asconmacv13_opt32" "-DALG=asconmacv13" "-DCRYPTO=auth" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_auth_asconmacv13_opt32" start time: Mar 11 12:27 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_auth_asconmacv13_opt32" end time: Mar 11 12:28 CET
+"genkat_crypto_auth_asconmacv13_opt32" time elapsed: 00:00:00
+----------------------------------------------------------
+
+65/82 Testing: genkat_crypto_auth_asconmacv13_bi32
+65/82 Test: genkat_crypto_auth_asconmacv13_bi32
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_auth_asconmacv13_bi32" "-DALG=asconmacv13" "-DCRYPTO=auth" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_auth_asconmacv13_bi32" start time: Mar 11 12:28 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_auth_asconmacv13_bi32" end time: Mar 11 12:28 CET
+"genkat_crypto_auth_asconmacv13_bi32" time elapsed: 00:00:00
+----------------------------------------------------------
+
+66/82 Testing: genkat_crypto_auth_asconmacv13_bi32_lowreg
+66/82 Test: genkat_crypto_auth_asconmacv13_bi32_lowreg
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_auth_asconmacv13_bi32_lowreg" "-DALG=asconmacv13" "-DCRYPTO=auth" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_auth_asconmacv13_bi32_lowreg" start time: Mar 11 12:28 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_auth_asconmacv13_bi32_lowreg" end time: Mar 11 12:28 CET
+"genkat_crypto_auth_asconmacv13_bi32_lowreg" time elapsed: 00:00:00
+----------------------------------------------------------
+
+67/82 Testing: genkat_crypto_auth_asconmacv13_opt8
+67/82 Test: genkat_crypto_auth_asconmacv13_opt8
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_auth_asconmacv13_opt8" "-DALG=asconmacv13" "-DCRYPTO=auth" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_auth_asconmacv13_opt8" start time: Mar 11 12:28 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_auth_asconmacv13_opt8" end time: Mar 11 12:28 CET
+"genkat_crypto_auth_asconmacv13_opt8" time elapsed: 00:00:00
+----------------------------------------------------------
+
+68/82 Testing: genkat_crypto_auth_asconmacv13_bi8
+68/82 Test: genkat_crypto_auth_asconmacv13_bi8
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_auth_asconmacv13_bi8" "-DALG=asconmacv13" "-DCRYPTO=auth" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_auth_asconmacv13_bi8" start time: Mar 11 12:28 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.09 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_auth_asconmacv13_bi8" end time: Mar 11 12:28 CET
+"genkat_crypto_auth_asconmacv13_bi8" time elapsed: 00:00:00
+----------------------------------------------------------
+
+69/82 Testing: genkat_crypto_auth_asconprfv13_ref
+69/82 Test: genkat_crypto_auth_asconprfv13_ref
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_auth_asconprfv13_ref" "-DALG=asconprfv13" "-DCRYPTO=auth" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_auth_asconprfv13_ref" start time: Mar 11 12:28 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_auth_asconprfv13_ref" end time: Mar 11 12:28 CET
+"genkat_crypto_auth_asconprfv13_ref" time elapsed: 00:00:00
+----------------------------------------------------------
+
+70/82 Testing: genkat_crypto_auth_asconprfv13_opt64
+70/82 Test: genkat_crypto_auth_asconprfv13_opt64
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_auth_asconprfv13_opt64" "-DALG=asconprfv13" "-DCRYPTO=auth" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_auth_asconprfv13_opt64" start time: Mar 11 12:28 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_auth_asconprfv13_opt64" end time: Mar 11 12:28 CET
+"genkat_crypto_auth_asconprfv13_opt64" time elapsed: 00:00:00
+----------------------------------------------------------
+
+71/82 Testing: genkat_crypto_auth_asconprfv13_opt32
+71/82 Test: genkat_crypto_auth_asconprfv13_opt32
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_auth_asconprfv13_opt32" "-DALG=asconprfv13" "-DCRYPTO=auth" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_auth_asconprfv13_opt32" start time: Mar 11 12:28 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_auth_asconprfv13_opt32" end time: Mar 11 12:28 CET
+"genkat_crypto_auth_asconprfv13_opt32" time elapsed: 00:00:00
+----------------------------------------------------------
+
+72/82 Testing: genkat_crypto_auth_asconprfv13_bi32
+72/82 Test: genkat_crypto_auth_asconprfv13_bi32
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_auth_asconprfv13_bi32" "-DALG=asconprfv13" "-DCRYPTO=auth" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_auth_asconprfv13_bi32" start time: Mar 11 12:28 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_auth_asconprfv13_bi32" end time: Mar 11 12:28 CET
+"genkat_crypto_auth_asconprfv13_bi32" time elapsed: 00:00:00
+----------------------------------------------------------
+
+73/82 Testing: genkat_crypto_auth_asconprfv13_bi32_lowreg
+73/82 Test: genkat_crypto_auth_asconprfv13_bi32_lowreg
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_auth_asconprfv13_bi32_lowreg" "-DALG=asconprfv13" "-DCRYPTO=auth" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_auth_asconprfv13_bi32_lowreg" start time: Mar 11 12:28 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_auth_asconprfv13_bi32_lowreg" end time: Mar 11 12:28 CET
+"genkat_crypto_auth_asconprfv13_bi32_lowreg" time elapsed: 00:00:00
+----------------------------------------------------------
+
+74/82 Testing: genkat_crypto_auth_asconprfv13_opt8
+74/82 Test: genkat_crypto_auth_asconprfv13_opt8
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_auth_asconprfv13_opt8" "-DALG=asconprfv13" "-DCRYPTO=auth" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_auth_asconprfv13_opt8" start time: Mar 11 12:28 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_auth_asconprfv13_opt8" end time: Mar 11 12:28 CET
+"genkat_crypto_auth_asconprfv13_opt8" time elapsed: 00:00:00
+----------------------------------------------------------
+
+75/82 Testing: genkat_crypto_auth_asconprfv13_bi8
+75/82 Test: genkat_crypto_auth_asconprfv13_bi8
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_auth_asconprfv13_bi8" "-DALG=asconprfv13" "-DCRYPTO=auth" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_auth_asconprfv13_bi8" start time: Mar 11 12:28 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.09 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_auth_asconprfv13_bi8" end time: Mar 11 12:28 CET
+"genkat_crypto_auth_asconprfv13_bi8" time elapsed: 00:00:00
+----------------------------------------------------------
+
+76/82 Testing: genkat_crypto_auth_asconprfsv13_ref
+76/82 Test: genkat_crypto_auth_asconprfsv13_ref
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_auth_asconprfsv13_ref" "-DALG=asconprfsv13" "-DCRYPTO=auth" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_auth_asconprfsv13_ref" start time: Mar 11 12:28 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_auth_asconprfsv13_ref" end time: Mar 11 12:28 CET
+"genkat_crypto_auth_asconprfsv13_ref" time elapsed: 00:00:00
+----------------------------------------------------------
+
+77/82 Testing: genkat_crypto_auth_asconprfsv13_opt64
+77/82 Test: genkat_crypto_auth_asconprfsv13_opt64
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_auth_asconprfsv13_opt64" "-DALG=asconprfsv13" "-DCRYPTO=auth" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_auth_asconprfsv13_opt64" start time: Mar 11 12:28 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_auth_asconprfsv13_opt64" end time: Mar 11 12:28 CET
+"genkat_crypto_auth_asconprfsv13_opt64" time elapsed: 00:00:00
+----------------------------------------------------------
+
+78/82 Testing: genkat_crypto_auth_asconprfsv13_opt32
+78/82 Test: genkat_crypto_auth_asconprfsv13_opt32
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_auth_asconprfsv13_opt32" "-DALG=asconprfsv13" "-DCRYPTO=auth" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_auth_asconprfsv13_opt32" start time: Mar 11 12:28 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_auth_asconprfsv13_opt32" end time: Mar 11 12:28 CET
+"genkat_crypto_auth_asconprfsv13_opt32" time elapsed: 00:00:00
+----------------------------------------------------------
+
+79/82 Testing: genkat_crypto_auth_asconprfsv13_bi32
+79/82 Test: genkat_crypto_auth_asconprfsv13_bi32
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_auth_asconprfsv13_bi32" "-DALG=asconprfsv13" "-DCRYPTO=auth" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_auth_asconprfsv13_bi32" start time: Mar 11 12:28 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_auth_asconprfsv13_bi32" end time: Mar 11 12:28 CET
+"genkat_crypto_auth_asconprfsv13_bi32" time elapsed: 00:00:00
+----------------------------------------------------------
+
+80/82 Testing: genkat_crypto_auth_asconprfsv13_bi32_lowreg
+80/82 Test: genkat_crypto_auth_asconprfsv13_bi32_lowreg
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_auth_asconprfsv13_bi32_lowreg" "-DALG=asconprfsv13" "-DCRYPTO=auth" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_auth_asconprfsv13_bi32_lowreg" start time: Mar 11 12:28 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_auth_asconprfsv13_bi32_lowreg" end time: Mar 11 12:28 CET
+"genkat_crypto_auth_asconprfsv13_bi32_lowreg" time elapsed: 00:00:00
+----------------------------------------------------------
+
+81/82 Testing: genkat_crypto_auth_asconprfsv13_opt8
+81/82 Test: genkat_crypto_auth_asconprfsv13_opt8
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_auth_asconprfsv13_opt8" "-DALG=asconprfsv13" "-DCRYPTO=auth" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_auth_asconprfsv13_opt8" start time: Mar 11 12:28 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_auth_asconprfsv13_opt8" end time: Mar 11 12:28 CET
+"genkat_crypto_auth_asconprfsv13_opt8" time elapsed: 00:00:00
+----------------------------------------------------------
+
+82/82 Testing: genkat_crypto_auth_asconprfsv13_bi8
+82/82 Test: genkat_crypto_auth_asconprfsv13_bi8
+Command: "/usr/bin/cmake" "-DEXE_NAME=genkat_crypto_auth_asconprfsv13_bi8" "-DALG=asconprfsv13" "-DCRYPTO=auth" "-DSRC_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon" "-DBIN_DIR=/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build" "-DEMULATOR=" "-DCONFIG=Release" "-P" "/home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/tests/genkat.cmake"
+Directory: /home/ryuzaou/Desktop/allt/dev/Thesis/libs/ascon/ascon/build
+"genkat_crypto_auth_asconprfsv13_bi8" start time: Mar 11 12:28 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"genkat_crypto_auth_asconprfsv13_bi8" end time: Mar 11 12:28 CET
+"genkat_crypto_auth_asconprfsv13_bi8" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Mar 11 12:28 CET
