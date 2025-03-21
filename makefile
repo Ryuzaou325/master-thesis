@@ -36,4 +36,4 @@ aes: aes.cpp
 	g++ -std=c++11 -o aes aes.cpp -I/usr/include/cryptopp -lcryptopp
 
 benchmark: benchmark.c
-	gcc -o benchmark benchmark.c $(SIPHASH_SOURCES) $(5G_SOURCES)	
+	gcc -o benchmark benchmark.c -lpthread $(SIPHASH_SOURCES) $(5G_SOURCES)	

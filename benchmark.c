@@ -1,3 +1,5 @@
+#define _GNU_SOURCE
+
 // Includes for code
 #include <stdio.h>
 #include <time.h>
@@ -7,6 +9,8 @@
 #include <ctype.h>
 #include <x86intrin.h>
 #include <stdint.h>
+#include <unistd.h>
+#include <sched.h>
 
  // siphash
 #include "libs/SipHash/SipHash/halfsiphash.h"
@@ -32,6 +36,8 @@
 // cflush
 #include <emmintrin.h>
 
+
+
 #define CACHE_LINE_SIZE 64   // Most CPUs use 64-byte cache lines
 #define CACHE_SIZE (8 * 1024 * 1024)  // Assume 8MB L3 cache
 
@@ -50,7 +56,7 @@
 	        if (max < ram) max = ram; \
 	} \
 	printf("\nAverage RAM Usage: %f Kilobytes\n", ((double)sum / iterations)); \
-	printf("Maximum RAM Usage: %d Kilobytes\n", max); \
+	printf("Maximum RAM Usage: %ld Kilobytes\n", max); \
 	sum = 0; \
 	max = 0; \
 	for (int i = 0; i < iterations; i++) { \
@@ -62,7 +68,7 @@
 	        if (max < (end - start)) max = (end - start); \
 	} \
 	printf("\nRDTSC Average Cycle count: %f\n", ((double)sum / iterations)); \
-	printf("RDTSC Maximum Cycle count: %d\n", max); \
+	printf("RDTSC Maximum Cycle count: %ld\n", max); \
 	sum = 0; \
 	max = 0; \
 	int ctr = create_perf_event(); \
@@ -75,7 +81,18 @@
 	        if (max < result) max = result; \
 	}\
 	printf("\nPerf Average Instruction count: %f\n", ((double)sum / iterations)); \
-	printf("Perf Maximum Instruction count: %d\n", max); \
+	printf("Perf Maximum Instruction count: %ld\n", max); \
+}
+
+void pin_to_core(int core_id) {
+    cpu_set_t cpuset;
+    CPU_ZERO(&cpuset);
+    CPU_SET(core_id, &cpuset);
+    
+    int result = sched_setaffinity(0, sizeof(cpu_set_t), &cpuset);
+    if (result != 0) {
+        perror("sched_setaffinity");
+    }
 }
 
 void createRandomSequence(uint8_t *sequence, unsigned int length) {
@@ -183,7 +200,9 @@ int runRamCheck() {
 
     char line[256];
     while (fgets(line, sizeof(line), fp)) {
+		//printf(line);
         if (strncmp(line, "VmHWM", 5) == 0) {  // VmHWM is the peak memory usage
+			fclose(fp);
             return extract_integer(line);
         }
     }
@@ -196,6 +215,8 @@ int runRamCheck() {
 #define KEY_LENGTH 8
 
 int main(int argc, char *argv[]) {
+
+	pin_to_core(0);
 
 	if (argc < 3) {
 		printf("Usage: ./benchmark <algorithm name> <iterations>\n");
