@@ -1,3 +1,4 @@
+// Includes for code
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
@@ -7,18 +8,23 @@
 #include <x86intrin.h>
 #include <stdint.h>
 
- 
+ // siphash
 #include "libs/SipHash/SipHash/halfsiphash.h"
 #include "libs/SipHash/SipHash/siphash.h"
 
+// 5G standard encryption/authentication
 #include "libs/snow3g/snow3g/SNOW_3G.h"
 #include "libs/snow3g/snow3g/f8.h"
 #include "libs/snow3g/snow3g/f9.h"
 
+//Ascon 
+#include "libs/ascon/ascon/tests/crypto_aead.h"
+
+// Perf
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <linux/perf_event.h>
-#include <sys/syscall.h>    // For syscall()
+#include <sys/syscall.h>
 #include <fcntl.h>
 #include <errno.h>
 #include <string.h>
@@ -160,35 +166,11 @@ int runRamCheck() {
     return 0;
 }
 
+#define MESSAGE_LENGTH 4
+
+#define KEY_LENGTH 8
+
 int main(int argc, char *argv[]) {
-
-        srand(time(NULL));  // We initialize it here, only once. Calling it more ofrten makes randomization more predicatable
-	
-	//Initializing values. These lengths should be in bytes. Edit as needed;
-	unsigned int MESSAGE_LENGTH = 4;
-	unsigned int CONFIDENTIALITY_KEY_LENGTH = 8;
-	unsigned int INTEGRITY_KEY_LENGTH = 8;
-	unsigned int CONFIDENTIALITY_IV_LENGTH = 4;
-	unsigned int INTEGRITY_IV_LENGTH = 4;
-	unsigned int MAC_LENGTH = 0; // Ssometimes influences algorithm choice (siphash vs halfsiphash)
-
-	uint8_t message[4];
-	uint8_t confidentialityKey[8];
-	uint8_t integrityKey[8];
-	uint8_t confidentialityIv[4];
-	uint8_t integrityIv[4];
-
-	createRandomSequence(message, sizeof(message));
-	createRandomSequence(confidentialityKey, sizeof(confidentialityKey));
-        createRandomSequence(integrityKey, sizeof(integrityKey));
-	createRandomSequence(confidentialityIv, sizeof(confidentialityIv));
-	createRandomSequence(integrityIv, sizeof(integrityIv));
-	
-	printf("Plaintext message: "); printHex(message);
-	printf("Confidentiality key: "); printHex(confidentialityKey);
-	printf("Integrity key: "); printHex(integrityKey);
-	printf("Confidentiality IV: "); printHex(confidentialityIv);
-	printf("Integrity IV: "); printHex(integrityIv);
 
 	if (argc < 3) {
 		printf("Usage: ./benchmark <algorithm name> <iterations>\n");
@@ -224,36 +206,62 @@ int main(int argc, char *argv[]) {
 	        return 1;
 	}
 	
+	srand(time(NULL));  // We initialize it here, only once. Calling it more ofrten makes randomization more predicatable
+	
+	//Initializing values. These lengths should be in bytes. Edit as needed;
+
+	uint8_t message[MESSAGE_LENGTH];
+	uint8_t key[KEY_LENGTH];
+
+	createRandomSequence(message, sizeof(message));
+	createRandomSequence(key, sizeof(key));
+	
+	printf("Plaintext message: "); printHex(message);
+	printf("key: "); printHex(key);
+	
 	int iterations = atoi(argv[2]);
 	
 	BENCH("siphash", iterations, {
 	        uint8_t hashOut[8];
-	        siphash(message, sizeof(message), integrityKey, hashOut, sizeof(hashOut));
+	        siphash(message, sizeof(message), key, hashOut, sizeof(hashOut));
 	})
 	BENCH("halfsiphash", iterations, {
 	        uint8_t hashOut[4];
-	        halfsiphash(message, sizeof(message), integrityKey, hashOut, sizeof(hashOut));
+	        halfsiphash(message, sizeof(message), key, hashOut, sizeof(hashOut));
 	})
 	BENCH("ascon", iterations, {
-	        
+	        // uint8_t nonce[16];
+	        // createRandomSequence(nonce, sizeof(nonce));
+	        // uint8_t ADD_LEN = 0;
+	        // ciphertext, ciphertextLength
+	        // decrypted
+	        // 
+	        // crypto_aead_encrypt(ciphertext, &clen, message, sizeof(message), NULL, ADD_LEN, NULL, nonce, key);
+	        // result = crypto_aead_decrypt(decrypted, &decrypted_len, NULL, ciphertext, clen, NULL, ADD_LEN, nonce, key);
 	})
 	BENCH("uia2", iterations, {
 	        u32 bearer = 0x15;
 	        u32 count = 0x389B7B12;
-	        f8(confidentialityKey, count, 0x15, 1, message, sizeof(message));
+	        f8(key, count, 0x15, 1, message, sizeof(message));
 	        // UIA2 encryption algorithm = UIA2 decryption algorithm
 	})
 	BENCH("uea2", iterations, {
+	        uint8_t integrityIv[4];
+	        createRandomSequence(integrityIv, sizeof(integrityIv));
 	        u32 count = 0x389B7B12;
 	        // warning for integrityIv, change it later
-	        u8 *mac = f9(integrityKey, count, (u32)integrityIv, 1, message, sizeof(message));
+	        u8 *mac = f9(key, count, (u32)integrityIv, 1, message, sizeof(message));
 	        // We don't know what argument 3 is??
 	})
 	BENCH("uia2uea2", iterations, {
 	        u32 bearer = 0x15;
 	        u32 count = 0x389B7B12;
-	        f8(confidentialityKey, count, 0x15, 1, message, sizeof(message));
+	        f8(key, count, 0x15, 1, message, sizeof(message));
 	        // warning for integrityIv, change it later
+	        uint8_t integrityIv[4];
+	        createRandomSequence(integrityIv, sizeof(integrityIv));
+	        uint8_t integrityKey[8];
+	        createRandomSequence(integrityKey, sizeof(integrityKey));
 	        u8 *mac = f9(integrityKey, count, (u32)integrityIv, 1, message, sizeof(message));
 	        // We don't know what argument 3 is??
 	})
