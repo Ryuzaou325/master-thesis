@@ -36,14 +36,15 @@
 #define CACHE_SIZE (8 * 1024 * 1024)  // Assume 8MB L3 cache
 
 #define PERF_EVENT_ATTR_SIZE sizeof(struct perf_event_attr)
+#define FLUSH_CACHES 1
 
 #define BENCH(name, iterations, bench) if (strcmp(argv[1], name) == 0) { \
         printf("\nRunning a benchmark for %s with %d iterations\n", name, iterations); \
 	unsigned long sum = 0; \
 	unsigned long max = 0; \
 	for (int i = 0; i < iterations; i++) { \
-			/*flush_all_caches(); */\
-	        bench; \
+		if (FLUSH_CACHES) flush_all_caches(); \
+		bench; \
 	        int ram = runRamCheck(); \
 	        sum += ram; \
 	        if (max < ram) max = ram; \
@@ -53,7 +54,8 @@
 	sum = 0; \
 	max = 0; \
 	for (int i = 0; i < iterations; i++) { \
-	        unsigned long long start = __rdtsc(); \
+	        if (FLUSH_CACHES) flush_all_caches(); \
+		unsigned long long start = __rdtsc(); \
 	        bench; \
 	        unsigned long long end = __rdtsc(); \
 	        sum += (end - start); \
@@ -65,6 +67,7 @@
 	max = 0; \
 	int ctr = create_perf_event(); \
 	for (int i = 0; i < iterations; i++) { \
+		if (FLUSH_CACHES) flush_all_caches(); \
 	        start_counter(ctr); \
 	        bench; \
 	        long long result = stop_counter(ctr); \
@@ -203,17 +206,17 @@ int main(int argc, char *argv[]) {
 	        int i = 0;
 	        for (i = 0; argv[2][i] != '\0'; i++) {
 	                if (!isdigit((unsigned char)argv[2][0])) {
-	                        printf("Invalid iteration input. Must be a positive value not leading with 0 and less than 99999\n");
+	                        printf("Invalid iteration input. Must be a positive value not leading with 0 and less than 9999999\n");
 	                        return 1;
 	                }
 	        }
-	        if (i > 5) {
-	                printf("Invalid iteration input. Must be a positive value not leading with 0 and less than 99999\n");
+	        if (i > 7) {
+	                printf("Invalid iteration input. Must be a positive value not leading with 0 and less than 9999999\n");
 	                return 1;
 	        }
 	}
 	else {
-	        printf("Invalid iteration input. Must be a positive value not leading with 0 and less than 99999\n");
+	        printf("Invalid iteration input. Must be a positive value not leading with 0 and less than 9999999\n");
 	        return 1;
 	}
         
