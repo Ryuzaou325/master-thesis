@@ -29,6 +29,12 @@
 #include <errno.h>
 #include <string.h>
 
+// cflush
+#include <emmintrin.h>
+
+#define CACHE_LINE_SIZE 64   // Most CPUs use 64-byte cache lines
+#define CACHE_SIZE (8 * 1024 * 1024)  // Assume 8MB L3 cache
+
 #define PERF_EVENT_ATTR_SIZE sizeof(struct perf_event_attr)
 
 #define BENCH(name, iterations, bench) if (strcmp(argv[1], name) == 0) { \
@@ -36,6 +42,7 @@
 	unsigned long sum = 0; \
 	unsigned long max = 0; \
 	for (int i = 0; i < iterations; i++) { \
+			/*flush_all_caches(); */\
 	        bench; \
 	        int ram = runRamCheck(); \
 	        sum += ram; \
@@ -79,6 +86,21 @@ void printHex(unsigned char *sequence) {
                 printf("%02x", sequence[i]);
         }
         printf("\n");
+}
+ // Flush all cache
+void flush_all_caches() {
+    char *buffer = (char *)malloc(CACHE_SIZE);
+    if (!buffer) {
+        perror("Memory allocation failed");
+        return;
+    }
+
+    for (size_t i = 0; i < CACHE_SIZE; i += CACHE_LINE_SIZE) {
+        _mm_clflush(&buffer[i]);  // Flush each cache line
+    }
+    _mm_sfence();  // Ensure all flushes complete
+
+    free(buffer);
 }
 
 // Function to create and configure a perf_event
