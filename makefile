@@ -18,9 +18,6 @@ ASCON_SOURCES = \
 	-I./libs/ascon/ascon/tests \
 	./libs/ascon/ascon/crypto_aead/asconaead128/ref/*.c
 	
-CRYPTOPP_SOURCES = \
-	-I/usr/include/cryptopp
-	
 
 
 snow3g: snow.c
@@ -29,22 +26,13 @@ snow3g: snow.c
 siphash: sip.c
 	gcc -o siphash sip.c ./libs/SipHash/SipHash/halfsiphash.c
 
-threefish: threefish.cpp
-	#$(MAKE) -C ./libs/cryptopp
-	g++ -std=c++11 -o threefish threefish.cpp -I/usr/include/cryptopp -lcryptopp
-
 ascon: ascon.c
 	#$(MAKE) -C ./libs/ascon/ascon/build
 	gcc -o ascon ascon.c -march=native -O3 -I./libs/ascon/ascon/tests ./libs/ascon/ascon/crypto_aead/asconaead128/ref/*.c
 
 chachapoly: chachapoly.c
 	gcc -o chachapoly chachapoly.c -I./libs/libsodium/libsodium/*.c -I./libs/libsodium/libsodium/*.h
-	
-aes: aes.cpp
-	#$(MAKE) -C ./libs/ascon/ascon/build
-	g++ -std=c++11 -o aes aes.cpp -I/usr/include/cryptopp -lcryptopp
 
 benchmark: benchmark.c
-	#$(MAKE) -C ./libs/cryptopp
 	#$(MAKE) -C ./libs/ascon/ascon/build
-	g++ -o benchmark benchmark.c -march=native -O3 -lpthread $(SIPHASH_SOURCES) $(5G_SOURCES) $(ASCON_SOURCES) $(CRYPTOPP_SOURCES) -lcryptopp
+	g++ -o benchmark benchmark.c -march=native -O3 -lpthread $(SIPHASH_SOURCES) $(5G_SOURCES) $(ASCON_SOURCES)
