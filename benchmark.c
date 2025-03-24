@@ -245,10 +245,10 @@ int main(int argc, char *argv[]) {
 	    strcmp(argv[1], "ascon") != 0 && strcmp(argv[1], "uia2") != 0 &&
 	    strcmp(argv[1], "uea2") != 0 && strcmp(argv[1], "uia2uea2") != 0 &&
 	    strcmp(argv[1], "chachapoly") != 0 && strcmp(argv[1], "chacha") != 0 &&
-	    strcmp(argv[1], "poly") != 0 && strcmp(argv[1], "threefish") != 0 &&
+	    strcmp(argv[1], "poly") != 0 &&
 	    strcmp(argv[1], "hmac") != 0 && strcmp(argv[1], "aes") != 0 &&
 	    strcmp(argv[1], "xor") != 0) {
-	        printf("Incorrect algorithm name choice. Options: \nsiphash, halfsiphash, ascon, uia2, uea2, uia2uea2, chachapoly, chacha, poly, threefish, hmac, aes, xor \n");
+	        printf("Incorrect algorithm name choice. Options: \nsiphash, halfsiphash, ascon, uia2, uea2, uia2uea2, chachapoly, chacha, poly,  hmac, aes, xor \n");
 	        return 1;
 	}
 	
@@ -319,9 +319,6 @@ int main(int argc, char *argv[]) {
 	
 	})
 	BENCH("poly", iterations, {
-	
-	})
-	BENCH("threefish", iterations, {
 	
 	})
 	BENCH("hmac", iterations, {
