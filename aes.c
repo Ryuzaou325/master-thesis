@@ -14,12 +14,12 @@ int main()
     // Generate a random key and IV (nonce)
     AutoSeededRandomPool prng;
 
-    // 256-bit key
-    CryptoPP::byte key[AES::DEFAULT_KEYLENGTH];
+    // 256-bit key (uint8_t instead of CryptoPP::byte)
+    uint8_t key[AES::DEFAULT_KEYLENGTH];
     prng.GenerateBlock(key, sizeof(key));
 
     // 128-bit IV (nonce)
-    CryptoPP::byte iv[AES::BLOCKSIZE];
+    uint8_t iv[AES::BLOCKSIZE];
     prng.GenerateBlock(iv, sizeof(iv));
 
     // Message to encrypt

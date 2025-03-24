@@ -13,6 +13,15 @@ SIPHASH_SOURCES = \
 	./libs/snow3g/snow3g/f8.c \
 	./libs/snow3g/snow3g/f9.c \
 	./libs/snow3g/snow3g/SNOW_3G.c
+	
+ASCON_SOURCES = \
+	-I./libs/ascon/ascon/tests \
+	./libs/ascon/ascon/crypto_aead/asconaead128/ref/*.c
+	
+CRYPTOPP_SOURCES = \
+	-I/usr/include/cryptopp
+	
+
 
 snow3g: snow.c
 	gcc -o snow3g snow.c ./libs/snow3g/snow3g/f8.c ./libs/snow3g/snow3g/f9.c ./libs/snow3g/snow3g/SNOW_3G.c
@@ -36,4 +45,6 @@ aes: aes.cpp
 	g++ -std=c++11 -o aes aes.cpp -I/usr/include/cryptopp -lcryptopp
 
 benchmark: benchmark.c
-	gcc -o benchmark benchmark.c -lpthread $(SIPHASH_SOURCES) $(5G_SOURCES)	
+	#$(MAKE) -C ./libs/cryptopp
+	#$(MAKE) -C ./libs/ascon/ascon/build
+	g++ -o benchmark benchmark.c -march=native -O3 -lpthread $(SIPHASH_SOURCES) $(5G_SOURCES) $(ASCON_SOURCES) $(CRYPTOPP_SOURCES) -lcryptopp

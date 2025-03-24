@@ -21,7 +21,7 @@
 #include "libs/snow3g/snow3g/f8.h"
 #include "libs/snow3g/snow3g/f9.h"
 
-//Ascon 
+// Ascon 
 #include "libs/ascon/ascon/tests/crypto_aead.h"
 
 // Perf
@@ -210,12 +210,12 @@ int runRamCheck() {
     return 0;
 }
 
-#define MESSAGE_LENGTH 4
-
-#define KEY_LENGTH 8
+#define MESSAGE_LENGTH AES::BLOCKSIZE
+#define KEY_LENGTH AES::DEFAULT_KEYLENGTH
+#define IV_LENGTH AES::BLOCKSIZE
+#define MAC_LENGTH 16
 
 int main(int argc, char *argv[]) {
-
 	pin_to_core(0);
 
 	if (argc < 3) {
@@ -276,14 +276,15 @@ int main(int argc, char *argv[]) {
 	        halfsiphash(message, sizeof(message), key, hashOut, sizeof(hashOut));
 	})
 	BENCH("ascon", iterations, {
-	        // uint8_t nonce[16];
-	        // createRandomSequence(nonce, sizeof(nonce));
-	        // uint8_t ADD_LEN = 0;
-	        // ciphertext, ciphertextLength
-	        // decrypted
-	        // 
-	        // crypto_aead_encrypt(ciphertext, &clen, message, sizeof(message), NULL, ADD_LEN, NULL, nonce, key);
-	        // result = crypto_aead_decrypt(decrypted, &decrypted_len, NULL, ciphertext, clen, NULL, ADD_LEN, nonce, key);
+	        uint8_t nonce[16];
+	        createRandomSequence(nonce, sizeof(nonce));
+	        uint8_t ADD_LEN = 0;
+	        uint8_t ciphertext[MESSAGE_LENGTH + MAC_LENGTH];
+	        uint8_t decrypted[MESSAGE_LENGTH];
+	        unsigned long long clen;
+	        crypto_aead_encrypt(ciphertext, &clen, message, sizeof(message), NULL, ADD_LEN, NULL, nonce, key);
+	        unsigned long long decrypted_len;
+	        int result = crypto_aead_decrypt(decrypted, &decrypted_len, NULL, ciphertext, clen, NULL, ADD_LEN, nonce, key);
 	})
 	BENCH("uia2", iterations, {
 	        u32 bearer = 0x15;

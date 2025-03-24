@@ -39,18 +39,18 @@ int main() {
         unsigned long long clen;
         uint64_t start, end;
     
-        /*printf("Plaintext: ");
+        printf("Plaintext: ");
         for (size_t i = 0; i < MESSAGE_LEN; i++) {
             printf("%02X ", plaintext[i]);
         }
-        printf("\n");*/
+        printf("\n");
     
         // Measure encryption cycles
-        // start = __rdtsc();
+        start = __rdtsc();
         crypto_aead_encrypt(ciphertext, &clen, plaintext, MESSAGE_LEN, NULL, ADD_LEN, NULL, nonce, key);
-        // end = __rdtsc();
+        end = __rdtsc();
         
-        /*
+        
         
         printf("Ciphertext: ");
         for (size_t i = 0; i < MESSAGE_LEN + TAG_LEN; i++) {
@@ -60,16 +60,16 @@ int main() {
     
         printf("Encryption time (cycles): %llu\n", (end - start));
   
-        */
+        
         // Decryption and Integrity Check
         unsigned long long decrypted_len;
         int result;
     
-        // start = __rdtsc();
+        start = __rdtsc();
         result = crypto_aead_decrypt(decrypted, &decrypted_len, NULL, ciphertext, clen, NULL, ADD_LEN, nonce, key);
-        // end = __rdtsc();
+        end = __rdtsc();
         
-        /*
+        
         
         if (result == 0) {
             printf("Decryption successful!\n");
@@ -84,7 +84,7 @@ int main() {
     
         printf("Decryption time (cycles): %llu\n", (end - start));
         
-        */
+        
     
         return 0;
 }

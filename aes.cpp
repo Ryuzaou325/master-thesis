@@ -1,11 +1,8 @@
-// code.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <aes.h>
 #include <gcm.h>
 #include <filters.h>
 #include <osrng.h>
-#include <hex.h>  
+#include <hex.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <iostream>
@@ -14,70 +11,65 @@
 
 #pragma intrinsic(__rdtsc)
 
-	/*
-	CryptoPP::SHA1 sha1;
-	std::string source = "Hello";
-	std::string hash = "";
-	CryptoPP::StringSource(source, true, new CryptoPP::HashFilter(sha1, new CryptoPP::HexEncoder(new CryptoPP::StringSink(hash))));
-	std::cout << hash;
-	*/
 using namespace CryptoPP;
 
 int main() {
     // Key and IV setup
     AutoSeededRandomPool rng;
-    SecByteBlock key(AES::DEFAULT_KEYLENGTH);
-    rng.GenerateBlock(key, key.size());
 
-    SecByteBlock iv(AES::BLOCKSIZE);
-    rng.GenerateBlock(iv, iv.size());
+    // AES key and IV as uint8_t arrays
+    uint8_t key[AES::DEFAULT_KEYLENGTH];
+    rng.GenerateBlock(key, sizeof(key));
 
-    std::string plaintext = "m";
+    uint8_t iv[AES::BLOCKSIZE];
+    rng.GenerateBlock(iv, sizeof(iv));
 
-    std::cout << "Plaintext Hex: " << plaintext << std::endl;
+    // Plaintext as uint8_t array
+    uint8_t plaintext[] = {0x33, 0x33, 0x22, 0x22};  // Plaintext array as uint8_t
+    size_t plaintextSize = sizeof(plaintext);
 
-    std::string hexOut;
-    std::string ciphertext, decryptedtext;
-    std::string mac;
-    
+    std::cout << "Plaintext: " << plaintext << std::endl;
+
+    // Adjust ciphertext and decryptedtext buffers based on plaintext size
+    size_t ciphertextSize = plaintextSize + AES::BLOCKSIZE;  // Include MAC size for GCM
+    uint8_t* ciphertext = new uint8_t[ciphertextSize];  // Dynamic buffer for ciphertext
+    uint8_t* decryptedtext = new uint8_t[ciphertextSize];  // Dynamic buffer for decrypted text
+
     try {
         unsigned long long start, end;
         start = __rdtsc(); // Get the initial tick count
 
         // Encrypt and generate MAC, then verify and decrypt
         GCM<AES>::Encryption encryption;
-        encryption.SetKeyWithIV(key, key.size(), iv, sizeof(iv));
-        
-        StringSource ss(plaintext, true,
+        encryption.SetKeyWithIV(key, sizeof(key), iv, sizeof(iv));
+
+        // Prepare ArraySink to hold encrypted data
+        ArraySink arraySink(ciphertext, ciphertextSize);
+
+        // StringSource for encryption (using uint8_t array directly)
+        StringSource ss(plaintext, plaintextSize, true,
             new AuthenticatedEncryptionFilter(encryption,
-                new StringSink(ciphertext)
+                new ArraySink(ciphertext, ciphertextSize)  // Store encrypted data
             )
         );
-        
+
         end = __rdtsc(); // Get the final tick count
-        
         std::cout << "Encryption clock cycles: " << (end - start) << std::endl;
-        
+
         start = __rdtsc();
-        
-        /*
-        // Calculate MAC separately
-        const size_t macSize = 12; // GCM MAC size
-        mac.assign(ciphertext.end() - macSize, ciphertext.end());
-        */
 
         // GCM decryption and MAC verification
         GCM<AES>::Decryption decryption;
-        decryption.SetKeyWithIV(key, key.size(), iv, sizeof(iv));
+        decryption.SetKeyWithIV(key, sizeof(key), iv, sizeof(iv));
 
-        StringSource ss2(ciphertext, true,
+        ArraySink decryptedArraySink(decryptedtext, ciphertextSize);  // Prepare for decrypted data
+
+        StringSource ss2(ciphertext, ciphertextSize, true,
             new AuthenticatedDecryptionFilter(decryption,
-                new StringSink(decryptedtext)//,
-                //AuthenticatedDecryptionFilter::DEFAULT_FLAGS, macSize
-            ) // AuthenticatedDecryptionFilter
-        ); // StringSource
+                new ArraySink(decryptedtext, ciphertextSize)  // Store decrypted data
+            )
+        );
 
-        // Your code here
         end = __rdtsc();
         std::cout << "Decryption clock cycles: " << (end - start) << std::endl;
 
@@ -85,49 +77,24 @@ int main() {
         std::cerr << "Verification failed: " << ex.what() << std::endl;
     }
 
-
-    // Print the ciphertext and MAC
-
-    hexOut.clear();
-    StringSource(ciphertext, true, new HexEncoder(new StringSink(hexOut)));
-    std::cout << "Cipher + MAC: " << hexOut << std::endl;
-
-    hexOut.clear();
-    StringSource(mac, true, new HexEncoder(new StringSink(hexOut)));
-    std::cout << "MAC: " << hexOut << std::endl;
-
-    hexOut.clear();
-    StringSource(key, key.size(), true,
-        new HexEncoder(new StringSink(hexOut))
-        );
-    std::cout << "Key: " << hexOut << std::endl;
-
-    hexOut.clear();
-    StringSource(iv, iv.size(), true,
+    // Print the ciphertext in hexadecimal format
+    std::string hexOut;
+    StringSource(ciphertext, ciphertextSize, true, 
         new HexEncoder(new StringSink(hexOut))
     );
-    std::cout << "IV: " << hexOut << std::endl;
+    std::cout << "Ciphertext (Hex): " << hexOut << std::endl;
 
-    std::cout << "Decryption: " << decryptedtext << std::endl;
+    // Print the decrypted text
+    hexOut.clear();
+    StringSource(decryptedtext, ciphertextSize, true, 
+        new HexEncoder(new StringSink(hexOut))
+    );
+    std::cout << "Decrypted Text (Hex): " << hexOut << std::endl;
+
+    // Clean up dynamically allocated memory
+    delete[] ciphertext;
+    delete[] decryptedtext;
 
     return 0;
 }
 
-std::string bytesToHex(const byte* data, size_t size) {
-	std::string hex;
-	CryptoPP::HexEncoder encoder(new CryptoPP::StringSink(hex));
-	encoder.Put(data, size);
-	encoder.MessageEnd();
-	return hex;
-}
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
