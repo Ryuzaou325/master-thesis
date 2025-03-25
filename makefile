@@ -19,8 +19,8 @@ ASCON_SOURCES = \
 	./libs/ascon/ascon/crypto_aead/asconaead128/ref/*.c
 	
 LIBSODIUM_SOURCES = \
-	-I./libs/libsodium-stable/src/libsodium/include/sodium.h \
-	-L./libs/libsodium-stable/src/libsodium/.libs/libsodium.a \
+	-I./libs/libsodium-stable/src/libsodium/include \
+	-L./libs/libsodium-stable/src/libsodium/.libs \
 	-lsodium
 	
 	
