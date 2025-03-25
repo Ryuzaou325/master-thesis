@@ -3,6 +3,7 @@
 #include "sodium.h"
 
 int main() {
+	printf("no test"); // remove later
 	if (sodium_init() < 0) {
 		printf("libsodium initialization failed");
 		return -1;
@@ -13,7 +14,7 @@ int main() {
 	randombytes_buf(key, sizeof(key));
 	randombytes_buf(nonce, sizeof(nonce));
 
-	unsigned char plaintext[] = "This is some data to encrypto";
+	unsigned char plaintext[] = "message";
 	unsigned char ad[] = "associated data";
 
 	unsigned char ciphertext[sizeof(plaintext) + crypto_aead_chacha20poly1305_ABYTES];
@@ -49,7 +50,7 @@ int main() {
 				&decrypted_len,
 				NULL,
 				ciphertext,
-				sizeof(siphertext),
+				sizeof(ciphertext),
 				ad,
 				sizeof(ad),
 				nonce,

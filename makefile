@@ -18,6 +18,12 @@ ASCON_SOURCES = \
 	-I./libs/ascon/ascon/tests \
 	./libs/ascon/ascon/crypto_aead/asconaead128/ref/*.c
 	
+LIBSODIUM_SOURCES = \
+	-I./libs/libsodium-stable/src/libsodium/include/sodium.h \
+	-L./libs/libsodium-stable/src/libsodium/.libs/libsodium.a \
+	-lsodium
+	
+	
 
 
 snow3g: snow.c
@@ -31,8 +37,9 @@ ascon: ascon.c
 	gcc -o ascon ascon.c -march=native -O3 -I./libs/ascon/ascon/tests ./libs/ascon/ascon/crypto_aead/asconaead128/ref/*.c
 
 chachapoly: chachapoly.c
-	gcc -o chachapoly chachapoly.c -I./libs/libsodium/libsodium/*.c -I./libs/libsodium/libsodium/*.h
+	gcc -o chapoly chachapoly.c $(LIBSODIUM_SOURCES)
 
 benchmark: benchmark.c
 	#$(MAKE) -C ./libs/ascon/ascon/build
-	g++ -o benchmark benchmark.c -march=native -O3 -lpthread $(SIPHASH_SOURCES) $(5G_SOURCES) $(ASCON_SOURCES)
+	gcc -o benchmark benchmark.c -march=native -O3 -lpthread $(SIPHASH_SOURCES) $(5G_SOURCES) $(ASCON_SOURCES) $(LIBSODIUM_SOURCES)
+	

@@ -210,9 +210,9 @@ int runRamCheck() {
     return 0;
 }
 
-#define MESSAGE_LENGTH AES::BLOCKSIZE
-#define KEY_LENGTH AES::DEFAULT_KEYLENGTH
-#define IV_LENGTH AES::BLOCKSIZE
+#define MESSAGE_LENGTH 4
+#define KEY_LENGTH 8
+#define IV_LENGTH 8
 #define MAC_LENGTH 16
 
 int main(int argc, char *argv[]) {
