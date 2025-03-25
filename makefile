@@ -23,10 +23,10 @@ LIBSODIUM_SOURCES = -lsodium
 	
 
 
-snow3g: snow.c
+snow3g: snow3g.c
 	gcc -o snow3g snow.c $(5G_SOURCES)
 
-siphash: sip.c
+siphash: siphash.c
 	gcc -o siphash sip.c $(SIPHASH_SOURCES)
 
 ascon: ascon.c
