@@ -24,17 +24,29 @@ LIBSODIUM_SOURCES = -lsodium
 
 
 snow3g: snow.c
-	gcc -o snow3g snow.c ./libs/snow3g/snow3g/f8.c ./libs/snow3g/snow3g/f9.c ./libs/snow3g/snow3g/SNOW_3G.c
+	gcc -o snow3g snow.c $(5G_SOURCES)
 
 siphash: sip.c
-	gcc -o siphash sip.c ./libs/SipHash/SipHash/halfsiphash.c
+	gcc -o siphash sip.c $(SIPHASH_SOURCES)
 
 ascon: ascon.c
 	#$(MAKE) -C ./libs/ascon/ascon/build
-	gcc -o ascon ascon.c -march=native -O3 -I./libs/ascon/ascon/tests ./libs/ascon/ascon/crypto_aead/asconaead128/ref/*.c
+	gcc -o ascon ascon.c -march=native -O3 $(ASCON_SOURCES)
 
 chachapoly: chachapoly.c
 	gcc -o chachapoly chachapoly.c $(LIBSODIUM_SOURCES)
+	
+chacha: chacha.c
+	gcc -o chacha chacha.c $(LIBSODIUM_SOURCES)
+
+poly: poly.c
+	gcc -o poly poly.c $(LIBSODIUM_SOURCES)
+
+hmac: hmac.c
+	gcc -o hmac hmac.c $(LIBSODIUM_SOURCES)
+	
+xor: xor.c
+	gcc -o xor xor.c $(LIBSODIUM_SOURCES)
 
 benchmark: benchmark.c
 	#$(MAKE) -C ./libs/ascon/ascon/build
