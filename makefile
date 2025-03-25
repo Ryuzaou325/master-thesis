@@ -33,11 +33,20 @@ ascon: ascon.c
 	#$(MAKE) -C ./libs/ascon/ascon/build
 	gcc -o ascon ascon.c -march=native -O3 $(ASCON_SOURCES)
 
+aes: aes.c
+	gcc -o aes aes.c $(LIBSODIUM_SOURCES)
+
 chachapoly: chachapoly.c
 	gcc -o chachapoly chachapoly.c $(LIBSODIUM_SOURCES)
 	
+salsapoly: salsapoly.c
+	gcc -o salsapoly salsapoly.c $(LIBSODIUM_SOURCES)
+	
 chacha: chacha.c
 	gcc -o chacha chacha.c $(LIBSODIUM_SOURCES)
+
+salsa: salsa.c
+	gcc -o salsa salsa.c $(LIBSODIUM_SOURCES)
 
 poly: poly.c
 	gcc -o poly poly.c $(LIBSODIUM_SOURCES)
