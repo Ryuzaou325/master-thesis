@@ -18,10 +18,7 @@ ASCON_SOURCES = \
 	-I./libs/ascon/ascon/tests \
 	./libs/ascon/ascon/crypto_aead/asconaead128/ref/*.c
 	
-LIBSODIUM_SOURCES = \
-	-I./libs/libsodium-stable/src/libsodium/include \
-	-L./libs/libsodium-stable/src/libsodium/.libs \
-	-lsodium
+LIBSODIUM_SOURCES = -lsodium
 	
 	
 
@@ -37,7 +34,7 @@ ascon: ascon.c
 	gcc -o ascon ascon.c -march=native -O3 -I./libs/ascon/ascon/tests ./libs/ascon/ascon/crypto_aead/asconaead128/ref/*.c
 
 chachapoly: chachapoly.c
-	gcc -o chapoly chachapoly.c $(LIBSODIUM_SOURCES)
+	gcc -o chachapoly chachapoly.c $(LIBSODIUM_SOURCES)
 
 benchmark: benchmark.c
 	#$(MAKE) -C ./libs/ascon/ascon/build
