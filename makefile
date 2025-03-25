@@ -55,7 +55,7 @@ hmac: hmac.c
 	gcc -o hmac hmac.c $(LIBSODIUM_SOURCES)
 	
 xor: xor.c
-	gcc -o xor xor.c $(LIBSODIUM_SOURCES)
+	gcc -o xor xor.c
 
 benchmark: benchmark.c
 	#$(MAKE) -C ./libs/ascon/ascon/build

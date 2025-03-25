@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <sodium.h>
 
 // Function to print a byte in binary form
 void print_binary(unsigned char byte) {
@@ -16,11 +15,6 @@ void xor_buffers(unsigned char *buf1, const unsigned char *buf2, size_t len) {
 }
 
 int main() {
-    // Initialize Libsodium
-    if (sodium_init() < 0) {
-        printf("Libsodium initialization failed\n");
-        return -1;
-    }
 
     // Define two buffers (arrays) of equal length
     unsigned char buf1[] = {0x1F, 0x2A, 0x3B, 0x4C};
