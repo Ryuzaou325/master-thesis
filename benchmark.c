@@ -12,6 +12,11 @@
 #include <unistd.h>
 #include <sched.h>
 
+// fork stuff
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <sys/resource.h>
+
  // siphash
 #include "libs/SipHash/SipHash/halfsiphash.h"
 #include "libs/SipHash/SipHash/siphash.h"
@@ -44,45 +49,41 @@
 #define PERF_EVENT_ATTR_SIZE sizeof(struct perf_event_attr)
 #define FLUSH_CACHES 1
 
+
 #define BENCH(name, iterations, bench) if (strcmp(argv[1], name) == 0) { \
         printf("\nRunning a benchmark for %s with %d iterations\n", name, iterations); \
 	unsigned long sum = 0; \
 	unsigned long max = 0; \
-	for (int i = 0; i < iterations; i++) { \
 		if (FLUSH_CACHES) flush_all_caches(); \
 		bench; \
 	        int ram = runRamCheck(); \
 	        sum += ram; \
 	        if (max < ram) max = ram; \
-	} \
 	printf("\nAverage RAM Usage: %f Kilobytes\n", ((double)sum / iterations)); \
 	printf("Maximum RAM Usage: %ld Kilobytes\n", max); \
 	sum = 0; \
 	max = 0; \
-	for (int i = 0; i < iterations; i++) { \
 	        if (FLUSH_CACHES) flush_all_caches(); \
 		unsigned long long start = __rdtsc(); \
 	        bench; \
 	        unsigned long long end = __rdtsc(); \
 	        sum += (end - start); \
 	        if (max < (end - start)) max = (end - start); \
-	} \
 	printf("\nRDTSC Average Cycle count: %f\n", ((double)sum / iterations)); \
 	printf("RDTSC Maximum Cycle count: %ld\n", max); \
 	sum = 0; \
 	max = 0; \
 	int ctr = create_perf_event(); \
-	for (int i = 0; i < iterations; i++) { \
 		if (FLUSH_CACHES) flush_all_caches(); \
 	        start_counter(ctr); \
 	        bench; \
 	        long long result = stop_counter(ctr); \
 	        sum += result; \
 	        if (max < result) max = result; \
-	}\
 	printf("\nPerf Average Instruction count: %f\n", ((double)sum / iterations)); \
 	printf("Perf Maximum Instruction count: %ld\n", max); \
 }
+
 
 void pin_to_core(int core_id) {
     cpu_set_t cpuset;
@@ -107,6 +108,7 @@ void printHex(unsigned char *sequence) {
         }
         printf("\n");
 }
+
  // Flush all cache
 void flush_all_caches() {
     char *buffer = (char *)malloc(CACHE_SIZE);
@@ -267,14 +269,87 @@ int main(int argc, char *argv[]) {
 	
 	int iterations = atoi(argv[2]);
 	
+
+	pid_t pids[iterations];
+	int pipefd[iterations][2];
+	int maxRam = 0;
+
+	// Initialize pipes
+    for (int i = 0; i < iterations; i++) {
+        if (pipe(pipefd[i]) == -1) {
+            perror("pipe failed");
+            exit(EXIT_FAILURE);
+        }
+    }
+
+
+	for (int i = 0; i < iterations; i++) {
+		pids[i] = fork();
+        if (pids[i] == 0) { // Child process
+			close(pipefd[i][0]); // close read end
+			// Can BENCH return values? I.e. ram usage, cycles
+            BENCH("siphash", iterations, {
+				uint8_t hashOut[8];
+				siphash(message, sizeof(message), key, hashOut, sizeof(hashOut));
+			});
+
+			BENCH("halfsiphash", iterations, {
+				uint8_t hashOut[4];
+				halfsiphash(message, sizeof(message), key, hashOut, sizeof(hashOut));
+			})
+
+			BENCH("ascon", iterations, {
+				uint8_t nonce[16];
+				createRandomSequence(nonce, sizeof(nonce));
+				uint8_t ADD_LEN = 0;
+				uint8_t ciphertext[MESSAGE_LENGTH + MAC_LENGTH];
+				uint8_t decrypted[MESSAGE_LENGTH];
+				unsigned long long clen;
+				crypto_aead_encrypt(ciphertext, &clen, message, sizeof(message), NULL, ADD_LEN, NULL, nonce, key);
+				unsigned long long decrypted_len;
+				int result = crypto_aead_decrypt(decrypted, &decrypted_len, NULL, ciphertext, clen, NULL, ADD_LEN, nonce, key);
+			})
+			// change &value for actual returned values from bench
+			int value = 1;
+			write(pipefd[i][1], &value, sizeof(value));
+			close(pipefd[i][1]); // close write end
+
+            exit(EXIT_SUCCESS);
+        } else if (pids[i] < 0) {
+            perror("fork failed");
+            exit(1);
+        }
+	}
+	int count = 0;
+	// parent process collects values
+	for (int i = 0; i < iterations; i++) {
+		int received_value;
+		close(pipefd[i][1]); // close write end on parent
+		// read and store value in received_value
+		read(pipefd[i][0], &received_value, sizeof(received_value));
+		count += received_value;
+		close(pipefd[i][0]); // close read end
+		printf("Received value = %d\n", received_value);
+
+		waitpid(pids[i], NULL, 0); // wait for child to finish
+	}
+	printf("%d\n", count);
+
+
+
+	/*
 	BENCH("siphash", iterations, {
-	        uint8_t hashOut[8];
-	        siphash(message, sizeof(message), key, hashOut, sizeof(hashOut));
-	})
+		uint8_t hashOut[8];
+		siphash(message, sizeof(message), key, hashOut, sizeof(hashOut));
+	})*/
+
+	/*
 	BENCH("halfsiphash", iterations, {
 	        uint8_t hashOut[4];
 	        halfsiphash(message, sizeof(message), key, hashOut, sizeof(hashOut));
 	})
+	*/
+	/*
 	BENCH("ascon", iterations, {
 	        uint8_t nonce[16];
 	        createRandomSequence(nonce, sizeof(nonce));
@@ -286,6 +361,7 @@ int main(int argc, char *argv[]) {
 	        unsigned long long decrypted_len;
 	        int result = crypto_aead_decrypt(decrypted, &decrypted_len, NULL, ciphertext, clen, NULL, ADD_LEN, nonce, key);
 	})
+	*/
 	BENCH("uia2", iterations, {
 	        u32 bearer = 0x15;
 	        u32 count = 0x389B7B12;
