@@ -29,6 +29,9 @@
 // Ascon 
 #include "libs/ascon/ascon/tests/crypto_aead.h"
 
+// Libsodium: chacha, poly, aes, hmac
+#include <sodium.h>
+
 // Perf
 #include <unistd.h>
 #include <sys/ioctl.h>
@@ -102,8 +105,8 @@ void createRandomSequence(uint8_t *sequence, unsigned int length) {
 	}
 }
 
-void printHex(unsigned char *sequence) {
-        for (int i = 0; i < sizeof(sequence); i++) {
+void printHex(unsigned char *sequence, unsigned int length) {
+        for (int i = 0; i < length;  i++) {
                 printf("%02x", sequence[i]);
         }
         printf("\n");
@@ -212,16 +215,212 @@ int runRamCheck() {
     return 0;
 }
 
-#define MESSAGE_LENGTH 4
-#define KEY_LENGTH 8
-#define IV_LENGTH 8
-#define MAC_LENGTH 16
+#define KEY_LENGTH 16
+#define IV_LENGTH 16
+#define MAC_LENGTH 8
+
+int runRDTSC(char *funcName, int mlen) {
+  srand(time(NULL));  // We initialize it here, only once. Calling it more ofrten makes randomization more predicatable
+  #define MESSAGE_LENGTH mlen
+  uint8_t message[MESSAGE_LENGTH];
+  uint8_t key[KEY_LENGTH];
+  
+  randombytes_buf(message, sizeof(message));
+  //printHex(message, sizeof(message));
+  randombytes_buf(key, sizeof(key));
+  unsigned long long start;
+  unsigned long long end;
+  if (strcmp(funcName, "siphash") == 0) {
+    uint8_t hashOutSender[8];
+    uint8_t hashOutReceiver[8];
+    start = __rdtsc();
+    // sender
+    siphash(message, sizeof(message), key, hashOutSender, sizeof(hashOutSender));
+    // receiver
+    siphash(message, sizeof(message), key, hashOutReceiver, sizeof(hashOutReceiver));
+    if (strcmp(hashOutSender, hashOutReceiver) == 0){
+      printf("Failure: Hashes don't match!");
+      return 0;
+    }
+    end = __rdtsc();
+    return end - start;
+  }
+  else if (strcmp(funcName, "halfsiphash") == 0) {
+    uint8_t hashOutSender[8];
+    uint8_t hashOutReceiver[8];
+    start = __rdtsc();
+    // sender
+    halfsiphash(message, sizeof(message), key, hashOutSender, sizeof(hashOutSender));
+    // receiver
+    halfsiphash(message, sizeof(message), key, hashOutReceiver, sizeof(hashOutReceiver));
+    if (strcmp(hashOutSender, hashOutReceiver) == 0){
+      printf("Failure: Hashes don't match!");
+      return 0;
+    }
+    end = __rdtsc();
+    return end - start;
+  } 
+  else if (strcmp(funcName, "ascon") == 0) {
+    uint8_t nonce[IV_LENGTH];
+    randombytes_buf(nonce, sizeof(nonce));
+    uint8_t ADD_LEN = 0;
+    uint8_t ciphertext[MESSAGE_LENGTH + MAC_LENGTH];
+    uint8_t decrypted[MESSAGE_LENGTH];
+    unsigned long long clen;
+    unsigned long long decrypted_len;
+    start = __rdtsc();
+    crypto_aead_encrypt(ciphertext, &clen, message, sizeof(message), NULL, ADD_LEN, NULL, nonce, key);
+    int result = crypto_aead_decrypt(decrypted, &decrypted_len, NULL, ciphertext, clen, NULL, ADD_LEN, nonce, key);
+    if (result != 0) {
+      printf("Failure: Hashes don't match!");
+      return 0;
+    }
+    end = __rdtsc();
+    return end - start;
+  }
+  else if (strcmp(funcName, "uia2") == 0) {
+    
+    uint8_t integrityIv[4];
+    randombytes_buf(integrityIv, sizeof(integrityIv));
+    u32 count = 0x389B7B12;
+    start = __rdtsc();
+    // TODO: warning for integrityIv, change it later
+    u8 *macSender = f9(key, count, (u32)integrityIv, 1, message, sizeof(message));
+    u8 *macReceiver = f9(key, count, (u32)integrityIv, 1, message, sizeof(message));
+    // We don't know what argument 3 is??
+    if (strcmp(macSender, macReceiver) != 0) {
+      printf("Failure: Hashes don't match!");
+      return 0;
+    }
+    end = __rdtsc();
+    return end - start;
+  }
+  else if (strcmp(funcName, "uea2") == 0) {
+    u32 bearer = 0x15;
+    u32 count = 0x389B7B12;
+    start = __rdtsc();
+    f8(key, count, 0x15, 1, message, sizeof(message));
+    f8(key, count, 0x15, 1, message, sizeof(message));
+    end = __rdtsc();
+    if (0) { // TODO: Compare 
+      printf("Failure: Hashes don't match!");
+      return 0;
+    }
+    return end - start;
+  }
+  else if (strcmp(funcName, "uea2uia2") == 0) {
+    uint8_t integrityIv[4];
+    randombytes_buf(integrityIv, sizeof(integrityIv));
+    u32 bearer = 0x15;
+    u32 count = 0x389B7B12;
+    start = __rdtsc();
+    f8(key, count, 0x15, 1, message, sizeof(message));
+    u8 *macSender = f9(key, count, (u32)integrityIv, 1, message, sizeof(message));
+    u8 *macReceiver = f9(key, count, (u32)integrityIv, 1, message, sizeof(message));
+    if (strcmp(macSender, macReceiver) != 0) {
+      printf("Failure: Hashes don't match!");
+      return 0;
+    }
+    f8(key, count, 0x15, 1, message, sizeof(message));
+    end = __rdtsc();
+    return end - start;
+  }
+  else if (strcmp(funcName, "chachapoly") == 0) {
+    unsigned char keyChacha[crypto_aead_xchacha20poly1305_ietf_KEYBYTES];
+    unsigned char nonce[crypto_aead_xchacha20poly1305_ietf_NPUBBYTES];
+    unsigned char ciphertext[MESSAGE_LENGTH + crypto_aead_xchacha20poly1305_ietf_ABYTES];
+    unsigned long long ciphertext_len;
+    unsigned char decrypted[MESSAGE_LENGTH];
+    unsigned long long decrypted_len;
+    #define ADDITIONAL_DATA_LENGTH 4
+    unsigned char additionalData[ADDITIONAL_DATA_LENGTH];
+    
+    crypto_aead_chacha20poly1305_keygen(keyChacha);
+    randombytes_buf(nonce, sizeof nonce);
+    randombytes_buf(additionalData, sizeof(additionalData));
+    
+    // printHex(message, sizeof(message));
+    
+    start = __rdtsc();
+    crypto_aead_chacha20poly1305_encrypt(
+      ciphertext, &ciphertext_len,
+      message, MESSAGE_LENGTH,
+      additionalData, ADDITIONAL_DATA_LENGTH,
+      NULL, nonce, keyChacha);
+    
+    // printHex(ciphertext, sizeof(ciphertext));
+    
+    if (crypto_aead_chacha20poly1305_decrypt(
+          decrypted, &decrypted_len,
+          NULL,
+          ciphertext, ciphertext_len,
+          additionalData,
+          ADDITIONAL_DATA_LENGTH,
+          nonce, keyChacha) 
+    != 0) {
+      printf("Failure: Hashes don't match!");
+      return 0;
+    }
+    // printHex(decrypted, sizeof(decrypted));
+    end = __rdtsc();
+    return end - start;
+  }
+  else if (strcmp(funcName, "chacha") == 0) {
+    // TODO: To be implemented (copy code from libsodium lmao)
+    // Initialization
+    start = __rdtsc();
+    // Encryption / MAC / AEAD
+    if (0) {
+      printf("Failure: Hashes don't match!");
+      return 0;
+    }
+    end = __rdtsc();
+    return end - start;
+  }
+  else if (strcmp(funcName, "poly") == 0) {
+    // Initialization
+    start = __rdtsc();
+    // Encryption / MAC / AEAD
+    if (0) {
+      printf("Failure: Hashes don't match!");
+      return 0;
+    }
+    end = __rdtsc();
+    return end - start;
+  }
+  else if (strcmp(funcName, "aes") == 0) {
+    // Initialization
+    start = __rdtsc();
+    // Encryption / MAC / AEAD
+    if (0) {
+      printf("Failure: Hashes don't match!");
+      return 0;
+    }
+    end = __rdtsc();
+    return end - start;
+  }
+  else if (strcmp(funcName, "xor") == 0) {
+    // Initialization
+    start = __rdtsc();
+    // Encryption / MAC / AEAD
+    if (0) {
+      printf("Failure: Hashes don't match!");
+      return 0;
+    }
+    end = __rdtsc();
+    return end - start;
+  }
+  else {
+    printf("Incorrect algorithm name choice. Options: \nsiphash, halfsiphash, ascon, uia2, uea2, uia2uea2, chachapoly, chacha, poly,  hmac, aes, xor \n");
+	        return 0;
+  }
+}
 
 int main(int argc, char *argv[]) {
 	pin_to_core(0);
 
-	if (argc < 3) {
-		printf("Usage: ./benchmark <algorithm name> <iterations>\n");
+	if (argc < 4) {
+		printf("Usage: ./benchmark <algorithm name> <iterations> <message length>\n");
 		return 1;
 	}
 	
@@ -245,27 +444,16 @@ int main(int argc, char *argv[]) {
         
 	if (strcmp(argv[1], "siphash") != 0 && strcmp(argv[1], "halfsiphash") != 0 &&
 	    strcmp(argv[1], "ascon") != 0 && strcmp(argv[1], "uia2") != 0 &&
-	    strcmp(argv[1], "uea2") != 0 && strcmp(argv[1], "uia2uea2") != 0 &&
+	    strcmp(argv[1], "uea2") != 0 && strcmp(argv[1], "uea2uia2") != 0 &&
 	    strcmp(argv[1], "chachapoly") != 0 && strcmp(argv[1], "chacha") != 0 &&
 	    strcmp(argv[1], "poly") != 0 &&
 	    strcmp(argv[1], "hmac") != 0 && strcmp(argv[1], "aes") != 0 &&
 	    strcmp(argv[1], "xor") != 0) {
-	        printf("Incorrect algorithm name choice. Options: \nsiphash, halfsiphash, ascon, uia2, uea2, uia2uea2, chachapoly, chacha, poly,  hmac, aes, xor \n");
+	        printf("Incorrect algorithm name choice. Options: \nsiphash, halfsiphash, ascon, uia2, uea2, uea2uia2, chachapoly, chacha, poly,  hmac, aes, xor \n");
 	        return 1;
 	}
 	
-	srand(time(NULL));  // We initialize it here, only once. Calling it more ofrten makes randomization more predicatable
-	
 	//Initializing values. These lengths should be in bytes. Edit as needed;
-
-	uint8_t message[MESSAGE_LENGTH];
-	uint8_t key[KEY_LENGTH];
-
-	createRandomSequence(message, sizeof(message));
-	createRandomSequence(key, sizeof(key));
-	
-	printf("Plaintext message: "); printHex(message);
-	printf("key: "); printHex(key);
 	
 	int iterations = atoi(argv[2]);
 	
@@ -287,30 +475,8 @@ int main(int argc, char *argv[]) {
 		pids[i] = fork();
         if (pids[i] == 0) { // Child process
 			close(pipefd[i][0]); // close read end
-			// Can BENCH return values? I.e. ram usage, cycles
-            BENCH("siphash", iterations, {
-				uint8_t hashOut[8];
-				siphash(message, sizeof(message), key, hashOut, sizeof(hashOut));
-			});
-
-			BENCH("halfsiphash", iterations, {
-				uint8_t hashOut[4];
-				halfsiphash(message, sizeof(message), key, hashOut, sizeof(hashOut));
-			})
-
-			BENCH("ascon", iterations, {
-				uint8_t nonce[16];
-				createRandomSequence(nonce, sizeof(nonce));
-				uint8_t ADD_LEN = 0;
-				uint8_t ciphertext[MESSAGE_LENGTH + MAC_LENGTH];
-				uint8_t decrypted[MESSAGE_LENGTH];
-				unsigned long long clen;
-				crypto_aead_encrypt(ciphertext, &clen, message, sizeof(message), NULL, ADD_LEN, NULL, nonce, key);
-				unsigned long long decrypted_len;
-				int result = crypto_aead_decrypt(decrypted, &decrypted_len, NULL, ciphertext, clen, NULL, ADD_LEN, nonce, key);
-			})
 			// change &value for actual returned values from bench
-			int value = 1;
+			int value = runRDTSC(argv[1], atoi(argv[3]));
 			write(pipefd[i][1], &value, sizeof(value));
 			close(pipefd[i][1]); // close write end
 
@@ -320,20 +486,25 @@ int main(int argc, char *argv[]) {
             exit(1);
         }
 	}
-	int count = 0;
+	int sum = 0;
+	int max = 0;
 	// parent process collects values
 	for (int i = 0; i < iterations; i++) {
 		int received_value;
 		close(pipefd[i][1]); // close write end on parent
 		// read and store value in received_value
 		read(pipefd[i][0], &received_value, sizeof(received_value));
-		count += received_value;
+		sum += received_value;
+		if (max < received_value) max = received_value;
 		close(pipefd[i][0]); // close read end
-		printf("Received value = %d\n", received_value);
+		//printf("Received value = %d\n", received_value);
 
 		waitpid(pids[i], NULL, 0); // wait for child to finish
 	}
-	printf("%d\n", count);
+	printf("Average: %d\n", sum / iterations);
+	printf("Maximum: %d\n", max);
+	printf("message length: %d\n", atoi(argv[3]));
+	printf("Cycles per Byte: %f\n", (float)((float)sum / (float)iterations) / (float)atoi(argv[3]));
 
 
 
@@ -341,15 +512,15 @@ int main(int argc, char *argv[]) {
 	BENCH("siphash", iterations, {
 		uint8_t hashOut[8];
 		siphash(message, sizeof(message), key, hashOut, sizeof(hashOut));
-	})*/
+	})
 
-	/*
+	
 	BENCH("halfsiphash", iterations, {
 	        uint8_t hashOut[4];
 	        halfsiphash(message, sizeof(message), key, hashOut, sizeof(hashOut));
 	})
-	*/
-	/*
+	
+	
 	BENCH("ascon", iterations, {
 	        uint8_t nonce[16];
 	        createRandomSequence(nonce, sizeof(nonce));
@@ -361,7 +532,7 @@ int main(int argc, char *argv[]) {
 	        unsigned long long decrypted_len;
 	        int result = crypto_aead_decrypt(decrypted, &decrypted_len, NULL, ciphertext, clen, NULL, ADD_LEN, nonce, key);
 	})
-	*/
+	
 	BENCH("uia2", iterations, {
 	        u32 bearer = 0x15;
 	        u32 count = 0x389B7B12;
@@ -375,7 +546,7 @@ int main(int argc, char *argv[]) {
 	        // warning for integrityIv, change it later
 	        u8 *mac = f9(key, count, (u32)integrityIv, 1, message, sizeof(message));
 	        // We don't know what argument 3 is??
-	})
+	})	
 	BENCH("uia2uea2", iterations, {
 	        u32 bearer = 0x15;
 	        u32 count = 0x389B7B12;
@@ -401,10 +572,37 @@ int main(int argc, char *argv[]) {
 	
 	})
 	BENCH("aes", iterations, {
-	
-	})
+	        #define MESSAGE (const unsigned char *) "test"
+                #define MESSAGE_LEN 4
+                #define ADDITIONAL_DATA (const unsigned char *) "123456"
+                #define ADDITIONAL_DATA_LEN 6
+
+                unsigned char nonce[crypto_aead_aegis256_NPUBBYTES];
+                unsigned char key[crypto_aead_aegis256_KEYBYTES];
+                unsigned char ciphertext[MESSAGE_LEN + crypto_aead_aegis256_ABYTES];
+                unsigned long long ciphertext_len;
+
+                crypto_aead_aegis256_keygen(key);
+                randombytes_buf(nonce, sizeof nonce);
+
+                crypto_aead_aegis256_encrypt(ciphertext, &ciphertext_len,
+                        MESSAGE, MESSAGE_LEN,
+                        ADDITIONAL_DATA, ADDITIONAL_DATA_LEN,
+                        NULL, nonce, key);
+
+                unsigned char decrypted[MESSAGE_LEN];
+                unsigned long long decrypted_len;
+                (crypto_aead_aegis256_decrypt(
+                        decrypted, &decrypted_len,
+                        NULL,
+                        ciphertext, ciphertext_len,
+                        ADDITIONAL_DATA, ADDITIONAL_DATA_LEN,
+                        nonce, key) 
+	        );
+	)
 	BENCH("xor", iterations, {
 	
-	})
+	})*/
+	//return 0;
 	return 0;
 }
