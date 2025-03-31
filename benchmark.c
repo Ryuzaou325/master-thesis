@@ -4,10 +4,8 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
-#include <x86intrin.h>
 #include <string.h>
 #include <ctype.h>
-#include <x86intrin.h>
 #include <stdint.h>
 #include <unistd.h>
 #include <sched.h>
@@ -18,6 +16,30 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/resource.h>
+
+// Perf
+#include <unistd.h>
+#include <sys/ioctl.h>
+#include <linux/perf_event.h>
+#include <sys/syscall.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <string.h>
+
+// cflush
+#include <emmintrin.h>
+
+// #include "benchmark-helpers.h"
+
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+#include <x86intrin.h>
+#include <ctype.h>
+#include <stdint.h>
+#include <unistd.h>
+#include <string.h>
+
 
  // siphash
 #include "libs/SipHash/SipHash/halfsiphash.h"
@@ -35,103 +57,64 @@
 #include <sodium.h>
 
 // Perf
-#include <unistd.h>
 #include <sys/ioctl.h>
 #include <linux/perf_event.h>
 #include <sys/syscall.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <string.h>
-
-// cflush
-#include <emmintrin.h>
-
-#define VERBOSE 0
-
-
-
-#define CACHE_LINE_SIZE 64   // Most CPUs use 64-byte cache lines
-#define CACHE_SIZE (8 * 1024 * 1024)  // Assume 8MB L3 cache
 
 #define PERF_EVENT_ATTR_SIZE sizeof(struct perf_event_attr)
-#define FLUSH_CACHES 1
 
-sem_t mutex;
+#define RDTSC
+// #define RAM
+// #define PERF
 
+#define KEY_LENGTH 16 // 64 bits
+#define IV_LENGTH 16
+#define MAC_LENGTH 8
 
-#define BENCH(name, iterations, bench) if (strcmp(argv[1], name) == 0) { \
-        printf("\nRunning a benchmark for %s with %d iterations\n", name, iterations); \
-	unsigned long sum = 0; \
-	unsigned long max = 0; \
-		if (FLUSH_CACHES) flush_all_caches(); \
-		bench; \
-	        int ram = runRamCheck(); \
-	        sum += ram; \
-	        if (max < ram) max = ram; \
-	printf("\nAverage RAM Usage: %f Kilobytes\n", ((double)sum / iterations)); \
-	printf("Maximum RAM Usage: %ld Kilobytes\n", max); \
-	sum = 0; \
-	max = 0; \
-	        if (FLUSH_CACHES) flush_all_caches(); \
-		unsigned long long start = __rdtsc(); \
-	        bench; \
-	        unsigned long long end = __rdtsc(); \
-	        sum += (end - start); \
-	        if (max < (end - start)) max = (end - start); \
-	printf("\nRDTSC Average Cycle count: %f\n", ((double)sum / iterations)); \
-	printf("RDTSC Maximum Cycle count: %ld\n", max); \
-	sum = 0; \
-	max = 0; \
-	int ctr = create_perf_event(); \
-		if (FLUSH_CACHES) flush_all_caches(); \
-	        start_counter(ctr); \
-	        bench; \
-	        long long result = stop_counter(ctr); \
-	        sum += result; \
-	        if (max < result) max = result; \
-	printf("\nPerf Average Instruction count: %f\n", ((double)sum / iterations)); \
-	printf("Perf Maximum Instruction count: %ld\n", max); \
-}
+int extract_integer(const char *str) {
+    // Skip over non-numeric characters
 
-
-void pin_to_core(int core_id) {
-    cpu_set_t cpuset;
-    CPU_ZERO(&cpuset);
-    CPU_SET(core_id, &cpuset);
+    while (*str != '\0' && !isdigit(*str) && *str != '-' && *str != '+') {
+        str++;
+    }
     
-    int result = sched_setaffinity(0, sizeof(cpu_set_t), &cpuset);
-    if (result != 0) {
-        perror("sched_setaffinity");
+    // Now we expect to find the integer
+    if (*str == '\0') {
+        printf("No integer found in the string.\n");
+        return 0;  // No integer found
     }
+
+    // Convert the string to an integer
+    char *endptr;
+    long int num = strtol(str, &endptr, 10);
+    
+    // Return the converted integer
+    return (int)num;
 }
 
-void createRandomSequence(uint8_t *sequence, unsigned int length) {
-	for (int i = 0; i < length; i++) {
-		sequence[i] = rand() % 256;
-	}
-}
+int runRamCheck() {
+    char fileName[256];
+    snprintf(fileName, sizeof(fileName), "/proc/%d/status", getpid());
+    FILE *fp = fopen(fileName, "r"); // After this point, file will not be changed
+    //printf("Checking pid: %d\n", getpid());
+    if (fp == NULL) {
+        perror("fopen");
+        //printf("failed to open file");
+        return 0;
+    }
 
-void printHex(unsigned char *sequence, unsigned int length) {
-        for (int i = 0; i < length;  i++) {
-                printf("%02x", sequence[i]);
+    char line[256];
+    while (fgets(line, sizeof(line), fp)) {
+		//printf(line);
+        if (strncmp(line, "VmHWM", 5) == 0) {  // VmHWM is the peak memory usage
+			fclose(fp);
+            return extract_integer(line);
         }
-        printf("\n");
-}
-
- // Flush all cache
-void flush_all_caches() {
-    char *buffer = (char *)malloc(CACHE_SIZE);
-    if (!buffer) {
-        perror("Memory allocation failed");
-        return;
     }
-
-    for (size_t i = 0; i < CACHE_SIZE; i += CACHE_LINE_SIZE) {
-        _mm_clflush(&buffer[i]);  // Flush each cache line
-    }
-    _mm_sfence();  // Ensure all flushes complete
-
-    free(buffer);
+    printf("Error, did not find file");
+    return 0;
 }
 
 // Function to create and configure a perf_event
@@ -180,269 +163,92 @@ long long stop_counter(int fd) {
     return read_counter(fd);
 }
 
-int extract_integer(const char *str) {
-    // Skip over non-numeric characters
+#define VERBOSE 0
 
-    while (*str != '\0' && !isdigit(*str) && *str != '-' && *str != '+') {
-        str++;
-    }
-    
-    // Now we expect to find the integer
-    if (*str == '\0') {
-        printf("No integer found in the string.\n");
-        return 0;  // No integer found
-    }
 
-    // Convert the string to an integer
-    char *endptr;
-    long int num = strtol(str, &endptr, 10);
-    
-    // Return the converted integer
-    return (int)num;
+
+#define CACHE_LINE_SIZE 64   // Most CPUs use 64-byte cache lines
+#define CACHE_SIZE (8 * 1024 * 1024)  // Assume 8MB L3 cache
+
+#define PERF_EVENT_ATTR_SIZE sizeof(struct perf_event_attr)
+#define FLUSH_CACHES 0
+
+sem_t mutex;
+
+
+#define BENCH(name, iterations, bench) if (strcmp(argv[1], name) == 0) { \
+        printf("\nRunning a benchmark for %s with %d iterations\n", name, iterations); \
+	unsigned long sum = 0; \
+	unsigned long max = 0; \
+        for (int i = 0; i < iterations; i++) { \
+		if (FLUSH_CACHES) flush_all_caches(); \
+		bench; \
+	        int ram = runRamCheck(); \
+	        sum += ram; \
+	        if (max < ram) max = ram; \
+        } \
+	printf("\nAverage RAM Usage: %f Kilobytes\n", ((double)sum / iterations)); \
+	printf("Maximum RAM Usage: %ld Kilobytes\n", max); \
+	sum = 0; \
+	max = 0; \
+        for (int i = 0; i < iterations; i++) { \
+	        if (FLUSH_CACHES) flush_all_caches(); \
+		unsigned long long start = __rdtsc(); \
+	        bench; \
+	        unsigned long long end = __rdtsc(); \
+                sum += (end - start); \
+	        if (max < (end - start)) max = (end - start); \
+        } \
+	printf("\nRDTSC Average Cycle count: %f\n", ((double)sum / iterations)); \
+	printf("RDTSC Maximum Cycle count: %ld\n", max); \
+	sum = 0; \
+	max = 0; \
+	int ctr = create_perf_event(); \
+        for (int i = 0; i < iterations; i++) { \
+		if (FLUSH_CACHES) flush_all_caches(); \
+	        start_counter(ctr); \
+	        bench; \
+	        long long result = stop_counter(ctr); \
+	        sum += result; \
+	        if (max < result) max = result; \
+        } \
+	printf("\nPerf Average Instruction count: %f\n", ((double)sum / iterations)); \
+	printf("Perf Maximum Instruction count: %ld\n", max); \
 }
 
-int runRamCheck() {
-    FILE *fp = fopen("/proc/self/status", "r"); // After this point, file will not be changed
-    if (fp == NULL) {
-        perror("fopen");
-        //printf("failed to open file");
-        return 0;
-    }
 
-    char line[256];
-    while (fgets(line, sizeof(line), fp)) {
-		//printf(line);
-        if (strncmp(line, "VmHWM", 5) == 0) {  // VmHWM is the peak memory usage
-			fclose(fp);
-            return extract_integer(line);
-        }
-    }
-    printf("Error, did not find file");
-    return 0;
-}
-
-#define KEY_LENGTH 16 // 64 bits
-#define IV_LENGTH 16
-#define MAC_LENGTH 8
-
-int runRDTSC(char *funcName, int mlen) {
-  //if (FLUSH_CACHES) flush_all_caches();
-  srand(time(NULL));  // We initialize it here, only once. Calling it more ofrten makes randomization more predicatable
-  #define MESSAGE_LENGTH mlen
-  uint8_t message[MESSAGE_LENGTH];
-  uint8_t key[KEY_LENGTH];
-  
-  randombytes_buf(message, sizeof(message));
-  //printHex(message, sizeof(message));
-  randombytes_buf(key, sizeof(key));
-  unsigned long long start;
-  unsigned long long end;
-  if (strcmp(funcName, "siphash") == 0) {
-    uint8_t hashOutSender[8];
-    uint8_t hashOutReceiver[8];
-    start = __rdtsc();
-    // sender
+void pin_to_core(int core_id) {
+    cpu_set_t cpuset;
+    CPU_ZERO(&cpuset);
+    CPU_SET(core_id, &cpuset);
     
-    //#define DEBUG
-    #if defined (DEBUG)
-      printf("Key @ sender: ");
-      printHex(key, sizeof(key));
-      printf("Message @ sender: ");
-      printHex(message, sizeof(message));
-    #endif
-    siphash(message, sizeof(message), key, hashOutSender, sizeof(hashOutSender));
-    // receiver
-    #if defined (DEBUG)
-      printf("\n\nKey @ receiver: ");
-      printHex(key, sizeof(key));
-      printf("Message @ receiver: ");
-      printHex(message, sizeof(message));
-    #endif
-    siphash(message, sizeof(message), key, hashOutReceiver, sizeof(hashOutReceiver));
-    #if defined (DEBUG)
-      printf("\n\nhashOut @ sender: ");
-      printHex(hashOutSender, sizeof(hashOutSender));
-      printf("hasOut @ receiver: ");
-      printHex(hashOutReceiver, sizeof(hashOutReceiver));
-    #endif
-    if (sizeof(hashOutReceiver) != sizeof(hashOutSender) 
-        || memcmp(hashOutReceiver, hashOutSender, sizeof(hashOutReceiver)) != 0){
-      printf("Failure: Hashes don't match!\n");
-      return 0;
-    }
-    end = __rdtsc();
-    //printf("%lld\n", end - start);
-    return end - start;
-  }
-  else if (strcmp(funcName, "halfsiphash") == 0) {
-    uint8_t hashOutSender[8];
-    uint8_t hashOutReceiver[8];
-    start = __rdtsc();
-    // sender
-    halfsiphash(message, sizeof(message), key, hashOutSender, sizeof(hashOutSender));
-    // receiver
-    halfsiphash(message, sizeof(message), key, hashOutReceiver, sizeof(hashOutReceiver));
-    if (strcmp(hashOutSender, hashOutReceiver) == 0){
-      printf("Failure: Hashes don't match!\n");
-      return 0;
-    }
-    end = __rdtsc();
-    return end - start;
-  } 
-  else if (strcmp(funcName, "ascon") == 0) {
-    uint8_t nonce[IV_LENGTH];
-    randombytes_buf(nonce, sizeof(nonce));
-    uint8_t ADD_LEN = 0;
-    uint8_t ciphertext[MESSAGE_LENGTH + MAC_LENGTH];
-    uint8_t decrypted[MESSAGE_LENGTH];
-    unsigned long long clen;
-    unsigned long long decrypted_len;
-    start = __rdtsc();
-    crypto_aead_encrypt(ciphertext, &clen, message, sizeof(message), NULL, ADD_LEN, NULL, nonce, key);
-    int result = crypto_aead_decrypt(decrypted, &decrypted_len, NULL, ciphertext, clen, NULL, ADD_LEN, nonce, key);
+    int result = sched_setaffinity(0, sizeof(cpu_set_t), &cpuset);
     if (result != 0) {
-      printf("Failure: Hashes don't match!\n");
-      return 0;
+        perror("sched_setaffinity");
     }
-    end = __rdtsc();
-    return end - start;
-  }
-  else if (strcmp(funcName, "uia2") == 0) {
-    
-    uint8_t integrityIv[4];
-    randombytes_buf(integrityIv, sizeof(integrityIv));
-    u32 count = 0x389B7B12;
-    start = __rdtsc();
-    // TODO: warning for integrityIv, change it later
-    u8 *macSender = f9(key, count, (u32)integrityIv, 1, message, sizeof(message));
-    u8 *macReceiver = f9(key, count, (u32)integrityIv, 1, message, sizeof(message));
-    // We don't know what argument 3 is??
-    if (strcmp(macSender, macReceiver) != 0) {
-      printf("Failure: Hashes don't match!");
-      return 0;
+}
+
+void printHex(unsigned char *sequence, unsigned int length) {
+        for (int i = 0; i < length;  i++) {
+                printf("%02x", sequence[i]);
+        }
+        printf("\n");
+}
+
+ // Flush all cache
+void flush_all_caches() {
+    char *buffer = (char *)malloc(CACHE_SIZE);
+    if (!buffer) {
+        perror("Memory allocation failed");
+        return;
     }
-    end = __rdtsc();
-    return end - start;
-  }
-  else if (strcmp(funcName, "uea2") == 0) {
-    u32 bearer = 0x15;
-    u32 count = 0x389B7B12;
-    start = __rdtsc();
-    f8(key, count, 0x15, 1, message, sizeof(message));
-    f8(key, count, 0x15, 1, message, sizeof(message));
-    end = __rdtsc();
-    if (0) { // TODO: Compare 
-      printf("Failure: Hashes don't match!");
-      return 0;
+
+    for (size_t i = 0; i < CACHE_SIZE; i += CACHE_LINE_SIZE) {
+        _mm_clflush(&buffer[i]);  // Flush each cache line
     }
-    return end - start;
-  }
-  else if (strcmp(funcName, "uea2uia2") == 0) {
-    uint8_t integrityIv[4];
-    randombytes_buf(integrityIv, sizeof(integrityIv));
-    u32 bearer = 0x15;
-    u32 count = 0x389B7B12;
-    start = __rdtsc();
-    f8(key, count, 0x15, 1, message, sizeof(message)); // encryption
-    u8 *macSender = f9(key, count, (u32)integrityIv, 1, message, sizeof(message)); // add MAC
-    u8 *macReceiver = f9(key, count, (u32)integrityIv, 1, message, sizeof(message)); // check MAC
-    if (strcmp(macSender, macReceiver) != 0) {
-      printf("Failure: Hashes don't match!");
-      return 0;
-    }
-    f8(key, count, 0x15, 1, message, sizeof(message)); // decrypt
-    end = __rdtsc();
-    return end - start;
-  }
-  else if (strcmp(funcName, "chachapoly") == 0) {
-    unsigned char keyChacha[crypto_aead_xchacha20poly1305_ietf_KEYBYTES];
-    unsigned char nonce[crypto_aead_xchacha20poly1305_ietf_NPUBBYTES];
-    unsigned char ciphertext[MESSAGE_LENGTH + crypto_aead_xchacha20poly1305_ietf_ABYTES];
-    unsigned long long ciphertext_len;
-    unsigned char decrypted[MESSAGE_LENGTH];
-    unsigned long long decrypted_len;
-    #define ADDITIONAL_DATA_LENGTH 4
-    unsigned char additionalData[ADDITIONAL_DATA_LENGTH];
-    
-    crypto_aead_chacha20poly1305_keygen(keyChacha);
-    randombytes_buf(nonce, sizeof nonce);
-    randombytes_buf(additionalData, sizeof(additionalData));
-    
-    // printHex(message, sizeof(message));
-    
-    start = __rdtsc();
-    crypto_aead_chacha20poly1305_encrypt(
-      ciphertext, &ciphertext_len,
-      message, MESSAGE_LENGTH,
-      additionalData, ADDITIONAL_DATA_LENGTH,
-      NULL, nonce, keyChacha);
-    
-    // printHex(ciphertext, sizeof(ciphertext));
-    
-    if (crypto_aead_chacha20poly1305_decrypt(
-          decrypted, &decrypted_len,
-          NULL,
-          ciphertext, ciphertext_len,
-          additionalData,
-          ADDITIONAL_DATA_LENGTH,
-          nonce, keyChacha) 
-    != 0) {
-      printf("Failure: Hashes don't match!");
-      return 0;
-    }
-    // printHex(decrypted, sizeof(decrypted));
-    end = __rdtsc();
-    return end - start;
-  }
-  else if (strcmp(funcName, "chacha") == 0) {
-    // TODO: To be implemented (copy code from libsodium lmao)
-    // Initialization
-    start = __rdtsc();
-    // Encryption / MAC / AEAD
-    if (0) {
-      printf("Failure: Hashes don't match!");
-      return 0;
-    }
-    end = __rdtsc();
-    return end - start;
-  }
-  else if (strcmp(funcName, "poly") == 0) {
-    // Initialization
-    start = __rdtsc();
-    // Encryption / MAC / AEAD
-    if (0) {
-      printf("Failure: Hashes don't match!");
-      return 0;
-    }
-    end = __rdtsc();
-    return end - start;
-  }
-  else if (strcmp(funcName, "aes") == 0) {
-    // Initialization
-    start = __rdtsc();
-    // Encryption / MAC / AEAD
-    if (0) {
-      printf("Failure: Hashes don't match!");
-      return 0;
-    }
-    end = __rdtsc();
-    return end - start;
-  }
-  else if (strcmp(funcName, "xor") == 0) {
-    // Initialization
-    start = __rdtsc();
-    // Encryption / MAC / AEAD
-    if (0) {
-      printf("Failure: Hashes don't match!");
-      return 0;
-    }
-    end = __rdtsc();
-    return end - start;
-  }
-  else {
-    printf("Incorrect algorithm name choice. Options: \nsiphash, halfsiphash, ascon, uia2, uea2, uia2uea2, chachapoly, chacha, poly,  hmac, aes, xor \n");
-	        return 0;
-  }
+    _mm_sfence();  // Ensure all flushes complete
+
+    free(buffer);
 }
 
 int main(int argc, char *argv[]) {
@@ -484,8 +290,8 @@ int main(int argc, char *argv[]) {
 	
 	//Initializing values. These lengths should be in bytes. Edit as needed;
 	
-	int iterations = atoi(argv[2]);
-	
+        #define MESSAGE_LENGTH atoi(argv[3])
+	/*
 
 	pid_t pids[iterations];
 	int pipefd[iterations][2];
@@ -508,7 +314,6 @@ int main(int argc, char *argv[]) {
       sem_wait(&mutex);
       if(VERBOSE) printf("Thread %d holds the lock\n", i);
 			close(pipefd[i][0]); // close read end
-			
 			int value = runRDTSC(argv[1], atoi(argv[3]));
 			write(pipefd[i][1], &value, sizeof(value));
 			close(pipefd[i][1]); // close write end
@@ -542,25 +347,35 @@ int main(int argc, char *argv[]) {
 	printf("Cycles per Byte: %f\n", (float)((float)sum / (float)iterations) / (float)atoi(argv[3]));
 
   sem_destroy(&mutex);
-
-
-
-	/*
+        */
+        
+int iterations = atoi(argv[2]);
+        uint8_t key[KEY_LENGTH];
+        uint8_t message[MESSAGE_LENGTH];
+	
 	BENCH("siphash", iterations, {
 		uint8_t hashOut[8];
+                randombytes_buf(message, sizeof(message));
+        randombytes_buf(key, sizeof(key));
+              
 		siphash(message, sizeof(message), key, hashOut, sizeof(hashOut));
 	})
 
 	
 	BENCH("halfsiphash", iterations, {
 	        uint8_t hashOut[4];
+int iterations = atoi(argv[2]);
+        uint8_t key[KEY_LENGTH];
+        uint8_t message[MESSAGE_LENGTH];
+        randombytes_buf(message, sizeof(message));
+        randombytes_buf(key, sizeof(key));
 	        halfsiphash(message, sizeof(message), key, hashOut, sizeof(hashOut));
 	})
 	
 	
 	BENCH("ascon", iterations, {
 	        uint8_t nonce[16];
-	        createRandomSequence(nonce, sizeof(nonce));
+	        randombytes_buf(nonce, sizeof nonce);
 	        uint8_t ADD_LEN = 0;
 	        uint8_t ciphertext[MESSAGE_LENGTH + MAC_LENGTH];
 	        uint8_t decrypted[MESSAGE_LENGTH];
@@ -578,7 +393,7 @@ int main(int argc, char *argv[]) {
 	})
 	BENCH("uea2", iterations, {
 	        uint8_t integrityIv[4];
-	        createRandomSequence(integrityIv, sizeof(integrityIv));
+	        randombytes_buf(integrityIv, sizeof integrityIv);
 	        u32 count = 0x389B7B12;
 	        // warning for integrityIv, change it later
 	        u8 *mac = f9(key, count, (u32)integrityIv, 1, message, sizeof(message));
@@ -590,9 +405,9 @@ int main(int argc, char *argv[]) {
 	        f8(key, count, 0x15, 1, message, sizeof(message));
 	        // warning for integrityIv, change it later
 	        uint8_t integrityIv[4];
-	        createRandomSequence(integrityIv, sizeof(integrityIv));
+                randombytes_buf(integrityIv, sizeof integrityIv);
 	        uint8_t integrityKey[8];
-	        createRandomSequence(integrityKey, sizeof(integrityKey));
+	        randombytes_buf(integrityKey, sizeof(integrityKey));
 	        u8 *mac = f9(integrityKey, count, (u32)integrityIv, 1, message, sizeof(message));
 	        // We don't know what argument 3 is??
 	})
@@ -636,10 +451,9 @@ int main(int argc, char *argv[]) {
                         ADDITIONAL_DATA, ADDITIONAL_DATA_LEN,
                         nonce, key) 
 	        );
-	)
+        })
 	BENCH("xor", iterations, {
 	
-	})*/
-	//return 0;
+	})
 	return 0;
 }
