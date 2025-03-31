@@ -215,7 +215,7 @@ int runRamCheck() {
     return 0;
 }
 
-#define KEY_LENGTH 16
+#define KEY_LENGTH 16 // 64 bits
 #define IV_LENGTH 16
 #define MAC_LENGTH 8
 
@@ -314,14 +314,14 @@ int runRDTSC(char *funcName, int mlen) {
     u32 bearer = 0x15;
     u32 count = 0x389B7B12;
     start = __rdtsc();
-    f8(key, count, 0x15, 1, message, sizeof(message));
-    u8 *macSender = f9(key, count, (u32)integrityIv, 1, message, sizeof(message));
-    u8 *macReceiver = f9(key, count, (u32)integrityIv, 1, message, sizeof(message));
+    f8(key, count, 0x15, 1, message, sizeof(message)); // encryption
+    u8 *macSender = f9(key, count, (u32)integrityIv, 1, message, sizeof(message)); // add MAC
+    u8 *macReceiver = f9(key, count, (u32)integrityIv, 1, message, sizeof(message)); // check MAC
     if (strcmp(macSender, macReceiver) != 0) {
       printf("Failure: Hashes don't match!");
       return 0;
     }
-    f8(key, count, 0x15, 1, message, sizeof(message));
+    f8(key, count, 0x15, 1, message, sizeof(message)); // decrypt
     end = __rdtsc();
     return end - start;
   }
