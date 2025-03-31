@@ -49,6 +49,7 @@
 #define VERBOSE 0
 
 
+
 #define CACHE_LINE_SIZE 64   // Most CPUs use 64-byte cache lines
 #define CACHE_SIZE (8 * 1024 * 1024)  // Assume 8MB L3 cache
 
@@ -220,11 +221,12 @@ int runRamCheck() {
     return 0;
 }
 
-#define KEY_LENGTH 16
+#define KEY_LENGTH 16 // 64 bits
 #define IV_LENGTH 16
 #define MAC_LENGTH 8
 
 int runRDTSC(char *funcName, int mlen) {
+  //if (FLUSH_CACHES) flush_all_caches();
   srand(time(NULL));  // We initialize it here, only once. Calling it more ofrten makes randomization more predicatable
   #define MESSAGE_LENGTH mlen
   uint8_t message[MESSAGE_LENGTH];
@@ -240,16 +242,36 @@ int runRDTSC(char *funcName, int mlen) {
     uint8_t hashOutReceiver[8];
     start = __rdtsc();
     // sender
+    
+    //#define DEBUG
+    #if defined (DEBUG)
+      printf("Key @ sender: ");
+      printHex(key, sizeof(key));
+      printf("Message @ sender: ");
+      printHex(message, sizeof(message));
+    #endif
     siphash(message, sizeof(message), key, hashOutSender, sizeof(hashOutSender));
     // receiver
+    #if defined (DEBUG)
+      printf("\n\nKey @ receiver: ");
+      printHex(key, sizeof(key));
+      printf("Message @ receiver: ");
+      printHex(message, sizeof(message));
+    #endif
     siphash(message, sizeof(message), key, hashOutReceiver, sizeof(hashOutReceiver));
-    printf("%lld\n",hashOutSender);
-    printf("%lld\n",hashOutReceiver);
-    if (strcmp(hashOutSender, hashOutReceiver) == 0){
-      printf("Failure: Hashes don't match!");
+    #if defined (DEBUG)
+      printf("\n\nhashOut @ sender: ");
+      printHex(hashOutSender, sizeof(hashOutSender));
+      printf("hasOut @ receiver: ");
+      printHex(hashOutReceiver, sizeof(hashOutReceiver));
+    #endif
+    if (sizeof(hashOutReceiver) != sizeof(hashOutSender) 
+        || memcmp(hashOutReceiver, hashOutSender, sizeof(hashOutReceiver)) != 0){
+      printf("Failure: Hashes don't match!\n");
       return 0;
     }
     end = __rdtsc();
+    printf("%lld\n", end - start);
     return end - start;
   }
   else if (strcmp(funcName, "halfsiphash") == 0) {
@@ -261,7 +283,7 @@ int runRDTSC(char *funcName, int mlen) {
     // receiver
     halfsiphash(message, sizeof(message), key, hashOutReceiver, sizeof(hashOutReceiver));
     if (strcmp(hashOutSender, hashOutReceiver) == 0){
-      printf("Failure: Hashes don't match!");
+      printf("Failure: Hashes don't match!\n");
       return 0;
     }
     end = __rdtsc();
@@ -279,7 +301,7 @@ int runRDTSC(char *funcName, int mlen) {
     crypto_aead_encrypt(ciphertext, &clen, message, sizeof(message), NULL, ADD_LEN, NULL, nonce, key);
     int result = crypto_aead_decrypt(decrypted, &decrypted_len, NULL, ciphertext, clen, NULL, ADD_LEN, nonce, key);
     if (result != 0) {
-      printf("Failure: Hashes don't match!");
+      printf("Failure: Hashes don't match!\n");
       return 0;
     }
     end = __rdtsc();
@@ -321,14 +343,14 @@ int runRDTSC(char *funcName, int mlen) {
     u32 bearer = 0x15;
     u32 count = 0x389B7B12;
     start = __rdtsc();
-    f8(key, count, 0x15, 1, message, sizeof(message));
-    u8 *macSender = f9(key, count, (u32)integrityIv, 1, message, sizeof(message));
-    u8 *macReceiver = f9(key, count, (u32)integrityIv, 1, message, sizeof(message));
+    f8(key, count, 0x15, 1, message, sizeof(message)); // encryption
+    u8 *macSender = f9(key, count, (u32)integrityIv, 1, message, sizeof(message)); // add MAC
+    u8 *macReceiver = f9(key, count, (u32)integrityIv, 1, message, sizeof(message)); // check MAC
     if (strcmp(macSender, macReceiver) != 0) {
       printf("Failure: Hashes don't match!");
       return 0;
     }
-    f8(key, count, 0x15, 1, message, sizeof(message));
+    f8(key, count, 0x15, 1, message, sizeof(message)); // decrypt
     end = __rdtsc();
     return end - start;
   }
@@ -486,6 +508,7 @@ int main(int argc, char *argv[]) {
       sem_wait(&mutex);
       if(VERBOSE) printf("Thread %d holds the lock\n", i);
 			close(pipefd[i][0]); // close read end
+			
 			int value = runRDTSC(argv[1], atoi(argv[3]));
 			write(pipefd[i][1], &value, sizeof(value));
 			close(pipefd[i][1]); // close write end
