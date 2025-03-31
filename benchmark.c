@@ -11,6 +11,8 @@
 #include <stdint.h>
 #include <unistd.h>
 #include <sched.h>
+#include <semaphore.h>
+#include <pthread.h>
 
 // fork stuff
 #include <sys/types.h>
@@ -44,6 +46,7 @@
 // cflush
 #include <emmintrin.h>
 
+#define VERBOSE 0
 
 
 #define CACHE_LINE_SIZE 64   // Most CPUs use 64-byte cache lines
@@ -51,6 +54,8 @@
 
 #define PERF_EVENT_ATTR_SIZE sizeof(struct perf_event_attr)
 #define FLUSH_CACHES 1
+
+sem_t mutex;
 
 
 #define BENCH(name, iterations, bench) if (strcmp(argv[1], name) == 0) { \
@@ -238,6 +243,8 @@ int runRDTSC(char *funcName, int mlen) {
     siphash(message, sizeof(message), key, hashOutSender, sizeof(hashOutSender));
     // receiver
     siphash(message, sizeof(message), key, hashOutReceiver, sizeof(hashOutReceiver));
+    printf("%lld\n",hashOutSender);
+    printf("%lld\n",hashOutReceiver);
     if (strcmp(hashOutSender, hashOutReceiver) == 0){
       printf("Failure: Hashes don't match!");
       return 0;
@@ -469,16 +476,21 @@ int main(int argc, char *argv[]) {
             exit(EXIT_FAILURE);
         }
     }
+  
+  sem_init(&mutex, 0, 1);
 
 
 	for (int i = 0; i < iterations; i++) {
 		pids[i] = fork();
         if (pids[i] == 0) { // Child process
+      sem_wait(&mutex);
+      if(VERBOSE) printf("Thread %d holds the lock\n", i);
 			close(pipefd[i][0]); // close read end
-			// change &value for actual returned values from bench
 			int value = runRDTSC(argv[1], atoi(argv[3]));
 			write(pipefd[i][1], &value, sizeof(value));
 			close(pipefd[i][1]); // close write end
+      if(VERBOSE) printf("Thread %d releases the lock\n", i);
+      sem_post(&mutex);
 
             exit(EXIT_SUCCESS);
         } else if (pids[i] < 0) {
@@ -505,6 +517,8 @@ int main(int argc, char *argv[]) {
 	printf("Maximum: %d\n", max);
 	printf("message length: %d\n", atoi(argv[3]));
 	printf("Cycles per Byte: %f\n", (float)((float)sum / (float)iterations) / (float)atoi(argv[3]));
+
+  sem_destroy(&mutex);
 
 
 
