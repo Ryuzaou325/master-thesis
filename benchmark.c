@@ -271,7 +271,7 @@ int runRDTSC(char *funcName, int mlen) {
       return 0;
     }
     end = __rdtsc();
-    printf("%lld\n", end - start);
+    //printf("%lld\n", end - start);
     return end - start;
   }
   else if (strcmp(funcName, "halfsiphash") == 0) {
