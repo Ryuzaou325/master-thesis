@@ -348,6 +348,10 @@ int main(int argc, char *argv[]) {
 
   sem_destroy(&mutex);
         */
+      // bench needs new argument: message length for cycles per byte output
+      // seperate initialization from actual encryption 
+      // Fix indentation
+      // Implement all algorithms
         
 int iterations = atoi(argv[2]);
         uint8_t key[KEY_LENGTH];
@@ -429,22 +433,22 @@ int iterations = atoi(argv[2]);
                 #define ADDITIONAL_DATA (const unsigned char *) "123456"
                 #define ADDITIONAL_DATA_LEN 6
 
-                unsigned char nonce[crypto_aead_aegis256_NPUBBYTES];
-                unsigned char key[crypto_aead_aegis256_KEYBYTES];
-                unsigned char ciphertext[MESSAGE_LEN + crypto_aead_aegis256_ABYTES];
+                unsigned char nonce[crypto_aead_aes256gcm_NPUBBYTES];
+                unsigned char key[crypto_aead_aes256gcm_KEYBYTES];
+                unsigned char ciphertext[MESSAGE_LEN + crypto_aead_aes256gcm_ABYTES];
                 unsigned long long ciphertext_len;
 
-                crypto_aead_aegis256_keygen(key);
+                crypto_aead_aes256gcm_keygen(key);
                 randombytes_buf(nonce, sizeof nonce);
 
-                crypto_aead_aegis256_encrypt(ciphertext, &ciphertext_len,
+                crypto_aead_aes256gcm_encrypt(ciphertext, &ciphertext_len,
                         MESSAGE, MESSAGE_LEN,
                         ADDITIONAL_DATA, ADDITIONAL_DATA_LEN,
                         NULL, nonce, key);
 
                 unsigned char decrypted[MESSAGE_LEN];
                 unsigned long long decrypted_len;
-                (crypto_aead_aegis256_decrypt(
+                (crypto_aead_aes256gcm_decrypt(
                         decrypted, &decrypted_len,
                         NULL,
                         ciphertext, ciphertext_len,
