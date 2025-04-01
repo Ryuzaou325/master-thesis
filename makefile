@@ -1,11 +1,5 @@
 MAKEFLAGS += -B
 
-OBJ_DIR = ./libs/cryptopp
-SRC_FILES = $(wildcard $(OBJ_DIR/*.o))
-EXCLUDE_FILE = $(OBJ_DIR)/test.o # This file is compilation problems but is not needed
-
-OBJ_FILES = $(filter-out $(EXCLUDE_FILE), $(SRC_FILES))
-
 SIPHASH_SOURCES = \
 	./libs/SipHash/SipHash/halfsiphash.c \
 	./libs/SipHash/SipHash/siphash.c \
@@ -28,6 +22,6 @@ ALGORITHMS = algorithms/*.o
 
 benchmark: benchmark.c
 	#$(MAKE) -C ./libs/ascon/ascon/build
-	gcc -o benchmark benchmark.c -march=native -O3 -lpthread $(METRICS) $(SIPHASH_SOURCES) $(5G_SOURCES) $(ASCON_SOURCES) $(LIBSODIUM_SOURCES)
+	gcc -o benchmark benchmark.c -march=native -O3 -lpthread $(METRICS) $(ALGORITHMS) $(SIPHASH_SOURCES) $(5G_SOURCES) $(ASCON_SOURCES) $(LIBSODIUM_SOURCES)
 
 	

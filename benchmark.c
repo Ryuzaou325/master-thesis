@@ -47,6 +47,7 @@
 #include <sodium.h>
 
 #include "metrics/metrics.h"
+#include "algorithms/algorithms.h"
 
 #define RDTSC
 // #define RAM
@@ -268,21 +269,11 @@ int main(int argc, char *argv[])
 	uint8_t message[MESSAGE_LENGTH];
 
 	BENCH("siphash", iterations, {
-		uint8_t hashOut[8];
-		randombytes_buf(message, sizeof(message));
-		randombytes_buf(key, sizeof(key));
-
-		siphash(message, sizeof(message), key, hashOut, sizeof(hashOut));
+		sip(message, sizeof(message), key);
 	})
 
 	BENCH("halfsiphash", iterations, {
-		uint8_t hashOut[4];
-		int iterations = atoi(argv[2]);
-		uint8_t key[KEY_LENGTH];
-		uint8_t message[MESSAGE_LENGTH];
-		randombytes_buf(message, sizeof(message));
-		randombytes_buf(key, sizeof(key));
-		halfsiphash(message, sizeof(message), key, hashOut, sizeof(hashOut));
+		halfsip(message, sizeof(message), key);
 	})
 
 	BENCH("ascon", iterations, {
