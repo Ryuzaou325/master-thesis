@@ -17,15 +17,6 @@
 #include <sys/wait.h>
 #include <sys/resource.h>
 
-// Perf
-#include <unistd.h>
-#include <sys/ioctl.h>
-#include <linux/perf_event.h>
-#include <sys/syscall.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <string.h>
-
 // cflush
 #include <emmintrin.h>
 
@@ -55,14 +46,7 @@
 // Libsodium: chacha, poly, aes, hmac
 #include <sodium.h>
 
-// Perf
-#include <sys/ioctl.h>
-#include <linux/perf_event.h>
-#include <sys/syscall.h>
-#include <fcntl.h>
-#include <errno.h>
-
-#define PERF_EVENT_ATTR_SIZE sizeof(struct perf_event_attr)
+#include "metrics/metrics.h"
 
 #define RDTSC
 // #define RAM
@@ -72,115 +56,11 @@
 #define IV_LENGTH 16
 #define MAC_LENGTH 8
 
-int extract_integer(const char *str)
-{
-	// Skip over non-numeric characters
-
-	while (*str != '\0' && !isdigit(*str) && *str != '-' && *str != '+')
-	{
-		str++;
-	}
-
-	// Now we expect to find the integer
-	if (*str == '\0')
-	{
-		printf("No integer found in the string.\n");
-		return 0; // No integer found
-	}
-
-	// Convert the string to an integer
-	char *endptr;
-	long int num = strtol(str, &endptr, 10);
-
-	// Return the converted integer
-	return (int)num;
-}
-
-int runRamCheck()
-{
-	char fileName[256];
-	snprintf(fileName, sizeof(fileName), "/proc/%d/status", getpid());
-	FILE *fp = fopen(fileName, "r"); // After this point, file will not be changed
-	// printf("Checking pid: %d\n", getpid());
-	if (fp == NULL)
-	{
-		perror("fopen");
-		// printf("failed to open file");
-		return 0;
-	}
-
-	char line[256];
-	while (fgets(line, sizeof(line), fp))
-	{
-		// printf(line);
-		if (strncmp(line, "VmHWM", 5) == 0)
-		{ // VmHWM is the peak memory usage
-			fclose(fp);
-			return extract_integer(line);
-		}
-	}
-	printf("Error, did not find file");
-	return 0;
-}
-
-// Function to create and configure a perf_event
-int create_perf_event()
-{
-	struct perf_event_attr attr;
-	memset(&attr, 0, PERF_EVENT_ATTR_SIZE);
-
-	// Set the event type to count instructions
-	attr.type = PERF_TYPE_HARDWARE;
-	attr.config = PERF_COUNT_HW_INSTRUCTIONS;
-
-	// Set the event for the current CPU
-	attr.size = PERF_EVENT_ATTR_SIZE;
-	attr.disabled = 1; // We disable the event initially
-
-	// Open the event (this uses the /dev/perf_event interface)
-	int fd = syscall(__NR_perf_event_open, &attr, 0, -1, -1, 0);
-
-	if (fd == -1)
-	{
-		perror("perf_event_open");
-		return -1;
-	}
-
-	return fd;
-}
-
-// Function to start counting
-void start_counter(int fd)
-{
-	ioctl(fd, PERF_EVENT_IOC_RESET, 0);	 // Reset the counter
-	ioctl(fd, PERF_EVENT_IOC_ENABLE, 0); // Enable the event
-}
-
-// Function to read the counter value
-long long read_counter(int fd)
-{
-	long long count;
-	if (read(fd, &count, sizeof(count)) == -1)
-	{
-		perror("read");
-		return -1;
-	}
-	return count;
-}
-
-// Function to stop counting and get the result
-long long stop_counter(int fd)
-{
-	ioctl(fd, PERF_EVENT_IOC_DISABLE, 0); // Disable the event
-	return read_counter(fd);
-}
-
 #define VERBOSE 0
 
 #define CACHE_LINE_SIZE 64			 // Most CPUs use 64-byte cache lines
 #define CACHE_SIZE (8 * 1024 * 1024) // Assume 8MB L3 cache
 
-#define PERF_EVENT_ATTR_SIZE sizeof(struct perf_event_attr)
 #define FLUSH_CACHES 0
 
 sem_t mutex;

@@ -22,9 +22,12 @@ ASCON_SOURCES = \
 	
 LIBSODIUM_SOURCES = -lsodium
 
+METRICS = metrics/*.o
+
+ALGORITHMS = algorithms/*.o
 
 benchmark: benchmark.c
 	#$(MAKE) -C ./libs/ascon/ascon/build
-	gcc -o benchmark benchmark.c -march=native -O3 -lpthread $(SIPHASH_SOURCES) $(5G_SOURCES) $(ASCON_SOURCES) $(LIBSODIUM_SOURCES)
+	gcc -o benchmark benchmark.c -march=native -O3 -lpthread $(METRICS) $(SIPHASH_SOURCES) $(5G_SOURCES) $(ASCON_SOURCES) $(LIBSODIUM_SOURCES)
 
 	
