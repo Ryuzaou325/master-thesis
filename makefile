@@ -22,6 +22,8 @@ ALGORITHMS = algorithms/*.o
 
 benchmark: benchmark.c
 	#$(MAKE) -C ./libs/ascon/ascon/build
+	$(MAKE) -C ./algorithms
+	$(MAKE) -C ./metrics
 	gcc -o benchmark benchmark.c -march=native -O3 -lpthread $(METRICS) $(ALGORITHMS) $(SIPHASH_SOURCES) $(5G_SOURCES) $(ASCON_SOURCES) $(LIBSODIUM_SOURCES)
 
 	
