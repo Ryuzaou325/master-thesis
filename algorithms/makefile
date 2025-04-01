@@ -1,3 +1,3 @@
 all:
-	gcc -c siphash.c
+	gcc -c siphash.c ascon.c
 

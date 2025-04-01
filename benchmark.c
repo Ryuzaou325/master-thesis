@@ -31,6 +31,9 @@
 #include <unistd.h>
 #include <string.h>
 
+// Libsodium: chacha, poly, aes, hmac
+#include <sodium.h>
+
 // siphash
 #include "libs/SipHash/SipHash/halfsiphash.h"
 #include "libs/SipHash/SipHash/siphash.h"
@@ -39,12 +42,6 @@
 #include "libs/snow3g/snow3g/SNOW_3G.h"
 #include "libs/snow3g/snow3g/f8.h"
 #include "libs/snow3g/snow3g/f9.h"
-
-// Ascon
-#include "libs/ascon/ascon/tests/crypto_aead.h"
-
-// Libsodium: chacha, poly, aes, hmac
-#include <sodium.h>
 
 #include "metrics/metrics.h"
 #include "algorithms/algorithms.h"
@@ -56,6 +53,7 @@
 #define KEY_LENGTH 16 // 64 bits
 #define IV_LENGTH 16
 #define MAC_LENGTH 8
+#define ADDITIONAL_DATA_LENGTH 8
 
 #define VERBOSE 0
 
@@ -66,7 +64,7 @@
 
 sem_t mutex;
 
-#define BENCH(name, iterations, bench)                                                 \
+#define BENCH(name, iterations, initialize, bench)                                                 \
 	if (strcmp(argv[1], name) == 0)                                                    \
 	{                                                                                  \
 		printf("\nRunning a benchmark for %s with %d iterations\n", name, iterations); \
@@ -74,8 +72,8 @@ sem_t mutex;
 		unsigned long max = 0;                                                         \
 		for (int i = 0; i < iterations; i++)                                           \
 		{                                                                              \
-			if (FLUSH_CACHES)                                                          \
-				flush_all_caches();                                                    \
+			if (FLUSH_CACHES) flush_all_caches(); \
+			initialize; \
 			bench;                                                                     \
 			int ram = runRamCheck();                                                   \
 			sum += ram;                                                                \
@@ -88,8 +86,8 @@ sem_t mutex;
 		max = 0;                                                                       \
 		for (int i = 0; i < iterations; i++)                                           \
 		{                                                                              \
-			if (FLUSH_CACHES)                                                          \
-				flush_all_caches();                                                    \
+			if (FLUSH_CACHES) flush_all_caches(); \
+			initialize; \
 			unsigned long long start = __rdtsc();                                      \
 			bench;                                                                     \
 			unsigned long long end = __rdtsc();                                        \
@@ -98,14 +96,16 @@ sem_t mutex;
 				max = (end - start);                                                   \
 		}                                                                              \
 		printf("\nRDTSC Average Cycle count: %f\n", ((double)sum / iterations));       \
-		printf("RDTSC Maximum Cycle count: %ld\n", max);                               \
+		printf("RDTSC Maximum Cycle count: %ld\n", max);   \
+		printf("Cycles per byte: %f\n", (double)(((double)sum / iterations) / (double)MESSAGE_LENGTH)); \
 		sum = 0;                                                                       \
 		max = 0;                                                                       \
 		int ctr = create_perf_event();                                                 \
 		for (int i = 0; i < iterations; i++)                                           \
 		{                                                                              \
 			if (FLUSH_CACHES)                                                          \
-				flush_all_caches();                                                    \
+				flush_all_caches(); \
+			initialize; \
 			start_counter(ctr);                                                        \
 			bench;                                                                     \
 			long long result = stop_counter(ctr);                                      \
@@ -116,7 +116,7 @@ sem_t mutex;
 		printf("\nPerf Average Instruction count: %f\n", ((double)sum / iterations));  \
 		printf("Perf Maximum Instruction count: %ld\n", max);                          \
 	}
-
+	
 void pin_to_core(int core_id)
 {
 	cpu_set_t cpuset;
@@ -156,6 +156,12 @@ void flush_all_caches()
 	_mm_sfence(); // Ensure all flushes complete
 
 	free(buffer);
+}
+
+void init(uint8_t *message, int mlen, uint8_t *key, int keylen) {
+    randombytes_buf(message, mlen);
+    //printHex(message, sizeof(message));
+    randombytes_buf(key, keylen);
 }
 
 int main(int argc, char *argv[])
@@ -206,8 +212,8 @@ int main(int argc, char *argv[])
 	// Initializing values. These lengths should be in bytes. Edit as needed;
 
 #define MESSAGE_LENGTH atoi(argv[3])
-	/*
-
+	
+/*
 	pid_t pids[iterations];
 	int pipefd[iterations][2];
 	int maxRam = 0;
@@ -261,100 +267,174 @@ int main(int argc, char *argv[])
 	printf("message length: %d\n", atoi(argv[3]));
 	printf("Cycles per Byte: %f\n", (float)((float)sum / (float)iterations) / (float)atoi(argv[3]));
 
-  sem_destroy(&mutex);
-		*/
+  sem_destroy(&mutex);*/
+		
 
-	int iterations = atoi(argv[2]);
-	uint8_t key[KEY_LENGTH];
-	uint8_t message[MESSAGE_LENGTH];
+    int iterations = atoi(argv[2]);
+    uint8_t key[KEY_LENGTH];
+    uint8_t polyKey[crypto_onetimeauth_KEYBYTES];
+    //printf("%d\n", sizeof(polyKey));
+    int8_t integrityKey[8];
+    uint8_t message[MESSAGE_LENGTH];
+    uint8_t additional_data[ADDITIONAL_DATA_LENGTH];
+    u32 count = 0x389B7B12;
+    u32 bearer = 0x15;
+    uint8_t msgCheck[MESSAGE_LENGTH];
+    
+    if (crypto_aead_aes256gcm_is_available() == 0) {
+            printf("AES hardware acceleration not supported");
+        }
 
-	BENCH("siphash", iterations, {
-		sip(message, sizeof(message), key);
-	})
+    BENCH("siphash", iterations, {
+        init(message, sizeof(message), key, sizeof(key));
+    }, {
+        sip(message, sizeof(message), key);
+    })
 
-	BENCH("halfsiphash", iterations, {
-		halfsip(message, sizeof(message), key);
-	})
+    BENCH("halfsiphash", iterations, {
+        init(message, sizeof(message), key, sizeof(key));
+    }, {
+        halfsip(message, sizeof(message), key);
+    })
 
-	BENCH("ascon", iterations, {
-		uint8_t nonce[16];
-		randombytes_buf(nonce, sizeof nonce);
-		uint8_t ADD_LEN = 0;
-		uint8_t ciphertext[MESSAGE_LENGTH + MAC_LENGTH];
-		uint8_t decrypted[MESSAGE_LENGTH];
-		unsigned long long clen;
-		crypto_aead_encrypt(ciphertext, &clen, message, sizeof(message), NULL, ADD_LEN, NULL, nonce, key);
-		unsigned long long decrypted_len;
-		int result = crypto_aead_decrypt(decrypted, &decrypted_len, NULL, ciphertext, clen, NULL, ADD_LEN, nonce, key);
-	})
+    BENCH("ascon", iterations, {
+        init(message, sizeof(message), key, sizeof(key));
+    }, {
+        ascon(message, sizeof(message), additional_data, sizeof(additional_data), MAC_LENGTH, key);    
+    })
 
-	BENCH("uia2", iterations, {
-		u32 bearer = 0x15;
-		u32 count = 0x389B7B12;
-		f8(key, count, 0x15, 1, message, sizeof(message));
-		// UIA2 encryption algorithm = UIA2 decryption algorithm
-	})
-	BENCH("uea2", iterations, {
-		uint8_t integrityIv[4];
-		randombytes_buf(integrityIv, sizeof integrityIv);
-		u32 count = 0x389B7B12;
-		// warning for integrityIv, change it later
-		u8 *mac = f9(key, count, (u32)integrityIv, 1, message, sizeof(message));
-		// We don't know what argument 3 is??
-	})
-	BENCH("uia2uea2", iterations, {
-		u32 bearer = 0x15;
-		u32 count = 0x389B7B12;
-		f8(key, count, 0x15, 1, message, sizeof(message));
-		// warning for integrityIv, change it later
-		uint8_t integrityIv[4];
-		randombytes_buf(integrityIv, sizeof integrityIv);
-		uint8_t integrityKey[8];
-		randombytes_buf(integrityKey, sizeof(integrityKey));
-		u8 *mac = f9(integrityKey, count, (u32)integrityIv, 1, message, sizeof(message));
-		// We don't know what argument 3 is??
-	})
-	BENCH("chachapoly", iterations, {
+    BENCH("uia2", iterations, {
+        init(message, sizeof(message), key, sizeof(key));
+    }, {
+        // Sender
+        uint8_t integrityIv[4];
+	randombytes_buf(integrityIv, sizeof integrityIv);
+	u8 *hashOut = f9(key, count, (u32)integrityIv, 1, message, sizeof(message));
+	// Receiver
+	u8 *hashCmp = f9(key, count, (u32)integrityIv, 1, message, sizeof(message));
+        if (sizeof(hashOut) != sizeof(hashCmp) || memcmp(hashOut, hashCmp, sizeof(hashOut)) != 0) {
+            printf("ERROR: Integrity check failed in uia2");
+        }
+    })
+    BENCH("uea2", iterations, {
+        init(message, sizeof(message), key, sizeof(key));
+        memcpy(msgCheck, message, sizeof(message));
+    }, {
+        // Sender
+	f8(key, count, bearer, 1, message, sizeof(message));
+	// message is now encrypted. reapply to get original message back
+	f8(key, count, 0x15, 1, message, sizeof(message));
+	if (sizeof(msgCheck) != sizeof(message) || memcmp(msgCheck, message, sizeof(message)) != 0) {
+	    printf("WARNING: Original ciphertext not retrieved in UEA2"); // TODO: Not realistic
+	}
+    })
+    BENCH("uia2uea2", iterations, {
+        init(message, sizeof(message), key, sizeof(key));
+    }, {
+        // Sender
+	f8(key, count, bearer, 1, message, sizeof(message));
+	uint8_t integrityIv[4];
+	u8 *hashOut = f9(key, count, (u32)integrityIv, 1, message, sizeof(message));
+	// Receiver
+	u8 *hashCmp = f9(key, count, (u32)integrityIv, 1, message, sizeof(message));
+	if (sizeof(hashOut) != sizeof(hashCmp) || memcmp(hashOut, hashCmp, sizeof(hashOut)) != 0) {
+            printf("ERROR: Integrity check failed in uia2uea2");
+        } else {
+            f8(key, count, bearer, 1, message, sizeof(message));
+        }
+    })
+    BENCH("chachapoly", iterations, {
+        init(message, sizeof(message), key, sizeof(key));
+    }, {
+        unsigned char nonce[crypto_aead_xchacha20poly1305_ietf_NPUBBYTES];
+        unsigned char ciphertext[sizeof(message) + crypto_aead_xchacha20poly1305_ietf_ABYTES];
+        unsigned long long ciphertext_len;
+        
+        randombytes_buf(nonce, sizeof nonce);
 
-									})
-	BENCH("chacha", iterations, {
+        crypto_aead_chacha20poly1305_encrypt(
+          ciphertext, &ciphertext_len,
+          message, sizeof(message),
+          additional_data, sizeof(additional_data),
+          NULL, nonce, key);
 
-								})
-	BENCH("poly", iterations, {
+        unsigned char decrypted[sizeof(message)];
+        unsigned long long decrypted_len;
+        int result = crypto_aead_chacha20poly1305_decrypt(
+          decrypted, &decrypted_len,
+          NULL,
+          ciphertext, ciphertext_len,
+          additional_data, sizeof(additional_data),
+          nonce, key);
+          
+        if (result != 0) {
+            printf("ERROR: Integrity check failed in Chachapoly");
+        }
 
-							  })
-	BENCH("hmac", iterations, {
+    })
+    BENCH("chacha", iterations, {
+        init(message, sizeof(message), key, sizeof(key));
+    }, {
+        //TODO
+    })
+    BENCH("poly", iterations, {
+        init(message, sizeof(message), polyKey, sizeof(polyKey));
+    }, {
+        unsigned char out[crypto_onetimeauth_BYTES];
+        unsigned char cmp[crypto_onetimeauth_BYTES];
+        crypto_onetimeauth(out, message, sizeof(message), polyKey);
+        crypto_onetimeauth(cmp, message, sizeof(message), polyKey);
+        if (crypto_onetimeauth_verify(out, message, sizeof(message), polyKey) != 0) {
+            printHex(message, sizeof(message));
+            printf("%d\n", sizeof(message));
+            printHex(out, sizeof(out));
+            printHex(out, sizeof(cmp));
+            printf("ERROR: Integrity check failed in poly\n");
+        }
+    })
+    BENCH("hmac", iterations, {
+        init(message, sizeof(message), key, sizeof(key));
+    }, {
+        // Uses Sha-2
+        unsigned char hash[crypto_auth_hmacsha512_BYTES];
+        crypto_auth_hmacsha512(hash, message, sizeof(message), key);
+    })
+    BENCH("aes", iterations, {
+        init(message, sizeof(message), key, sizeof(key));
+    }, {
+        unsigned char nonce[crypto_aead_aes256gcm_NPUBBYTES];
+	unsigned char ciphertext[sizeof(message) + crypto_aead_aes256gcm_ABYTES];
+	unsigned long long ciphertext_len;
 
-							  })
-	BENCH("aes", iterations, {
-#define MESSAGE (const unsigned char *)"test"
-#define MESSAGE_LEN 4
-#define ADDITIONAL_DATA (const unsigned char *)"123456"
-#define ADDITIONAL_DATA_LEN 6
-		unsigned char nonce[crypto_aead_aegis256_NPUBBYTES];
-		unsigned char key[crypto_aead_aegis256_KEYBYTES];
-		unsigned char ciphertext[MESSAGE_LEN + crypto_aead_aegis256_ABYTES];
-		unsigned long long ciphertext_len;
+	randombytes_buf(nonce, sizeof nonce);
 
-		crypto_aead_aegis256_keygen(key);
-		randombytes_buf(nonce, sizeof nonce);
+	crypto_aead_aes256gcm_encrypt(ciphertext, &ciphertext_len,
+	    message, sizeof(message),
+	    additional_data, sizeof(additional_data),
+	    NULL, nonce, key);
 
-		crypto_aead_aegis256_encrypt(ciphertext, &ciphertext_len,
-									 MESSAGE, MESSAGE_LEN,
-									 ADDITIONAL_DATA, ADDITIONAL_DATA_LEN,
-									 NULL, nonce, key);
-
-		unsigned char decrypted[MESSAGE_LEN];
-		unsigned long long decrypted_len;
-		(crypto_aead_aegis256_decrypt(
-			decrypted, &decrypted_len,
-			NULL,
-			ciphertext, ciphertext_len,
-			ADDITIONAL_DATA, ADDITIONAL_DATA_LEN,
-			nonce, key));
-	})
-	BENCH("xor", iterations, {
-
-							 })
-	return 0;
+	unsigned char decrypted[sizeof(message)];
+	unsigned long long decrypted_len;
+	int result = crypto_aead_aes256gcm_decrypt(
+	    decrypted, &decrypted_len,
+	    NULL,
+	    ciphertext, ciphertext_len,
+	    additional_data, sizeof(additional_data),
+	    nonce, key);
+    })
+    BENCH("xor", iterations, {
+        init(message, sizeof(message), key, sizeof(key));
+        memcpy(msgCheck, message, sizeof(message));
+    }, {
+      for (size_t i = 0; i < sizeof(key); i++) {
+          message[i] ^= key[i];  // Perform XOR on each byte
+      }
+      if (sizeof(msgCheck) != sizeof(message) || memcmp(msgCheck, message, sizeof(message)) != 0) {
+	    printf("WARNING: Original ciphertext not retrieved in XOR");
+	}
+      for (size_t i = 0; i < sizeof(key); i++) {
+          message[i] ^= key[i];  // Perform XOR on each byte
+      }
+    })
+    return 0;
 }
