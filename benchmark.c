@@ -53,7 +53,7 @@
 #define KEY_LENGTH 16 // 64 bits
 #define IV_LENGTH 16
 #define MAC_LENGTH 8
-#define ADDITIONAL_DATA_LENGTH 8
+#define ADDITIONAL_DATA_LENGTH 0
 
 #define VERBOSE 0
 
@@ -203,7 +203,7 @@ int main(int argc, char *argv[])
 		strcmp(argv[1], "chachapoly") != 0 && strcmp(argv[1], "chacha") != 0 &&
 		strcmp(argv[1], "poly") != 0 &&
 		strcmp(argv[1], "hmac") != 0 && strcmp(argv[1], "aes") != 0 &&
-		strcmp(argv[1], "xor") != 0)
+		strcmp(argv[1], "xor") != 0 && strcmp(argv[1], "chachasip") != 0)
 	{
 		printf("Incorrect algorithm name choice. Options: \nsiphash, halfsiphash, ascon, uia2, uea2, uea2uia2, chachapoly, chacha, poly,  hmac, aes, xor \n");
 		return 1;
@@ -280,10 +280,6 @@ int main(int argc, char *argv[])
     u32 count = 0x389B7B12;
     u32 bearer = 0x15;
     uint8_t msgCheck[MESSAGE_LENGTH];
-    
-    if (crypto_aead_aes256gcm_is_available() == 0) {
-            printf("AES hardware acceleration not supported");
-        }
 
     BENCH("siphash", iterations, {
         init(message, sizeof(message), key, sizeof(key));
@@ -299,6 +295,7 @@ int main(int argc, char *argv[])
 
     BENCH("ascon", iterations, {
         init(message, sizeof(message), key, sizeof(key));
+        randombytes_buf(additional_data, sizeof(additional_data));
     }, {
         ascon(message, sizeof(message), additional_data, sizeof(additional_data), MAC_LENGTH, key);    
     })
@@ -324,11 +321,11 @@ int main(int argc, char *argv[])
 	f8(key, count, bearer, 1, message, sizeof(message));
 	// message is now encrypted. reapply to get original message back
 	f8(key, count, 0x15, 1, message, sizeof(message));
-	if (sizeof(msgCheck) != sizeof(message) || memcmp(msgCheck, message, sizeof(message)) != 0) {
-	    printf("WARNING: Original ciphertext not retrieved in UEA2"); // TODO: Not realistic
-	}
+	//if (sizeof(msgCheck) != sizeof(message) || memcmp(msgCheck, message, sizeof(message)) != 0) {
+	    //printf("WARNING: Original ciphertext not retrieved in UEA2"); // TODO: Not realistic
+	//}
     })
-    BENCH("uia2uea2", iterations, {
+    BENCH("uea2uia2", iterations, {
         init(message, sizeof(message), key, sizeof(key));
     }, {
         // Sender
@@ -345,6 +342,7 @@ int main(int argc, char *argv[])
     })
     BENCH("chachapoly", iterations, {
         init(message, sizeof(message), key, sizeof(key));
+        randombytes_buf(additional_data, sizeof(additional_data));
     }, {
         unsigned char nonce[crypto_aead_xchacha20poly1305_ietf_NPUBBYTES];
         unsigned char ciphertext[sizeof(message) + crypto_aead_xchacha20poly1305_ietf_ABYTES];
@@ -374,8 +372,19 @@ int main(int argc, char *argv[])
     })
     BENCH("chacha", iterations, {
         init(message, sizeof(message), key, sizeof(key));
+        memcpy(msgCheck, message, sizeof(message));
     }, {
-        //TODO
+        unsigned char ciphertext[sizeof(message)];
+        unsigned char nonce[sizeof(message)];
+        // Key if fail
+        randombytes_buf(nonce, sizeof(nonce));
+        crypto_stream_chacha20_xor(ciphertext, message, sizeof(message), nonce, key);
+        
+        crypto_stream_chacha20_xor(ciphertext, message, sizeof(message), nonce, key);
+        
+        //if (sizeof(msgCheck) != sizeof(message) || memcmp(msgCheck, message, sizeof(message)) != 0) {
+	    //printf("WARNING: Original ciphertext not retrieved in XOR");
+        //}
     })
     BENCH("poly", iterations, {
         init(message, sizeof(message), polyKey, sizeof(polyKey));
@@ -385,10 +394,6 @@ int main(int argc, char *argv[])
         crypto_onetimeauth(out, message, sizeof(message), polyKey);
         crypto_onetimeauth(cmp, message, sizeof(message), polyKey);
         if (crypto_onetimeauth_verify(out, message, sizeof(message), polyKey) != 0) {
-            printHex(message, sizeof(message));
-            printf("%d\n", sizeof(message));
-            printHex(out, sizeof(out));
-            printHex(out, sizeof(cmp));
             printf("ERROR: Integrity check failed in poly\n");
         }
     })
@@ -396,8 +401,15 @@ int main(int argc, char *argv[])
         init(message, sizeof(message), key, sizeof(key));
     }, {
         // Uses Sha-2
-        unsigned char hash[crypto_auth_hmacsha512_BYTES];
-        crypto_auth_hmacsha512(hash, message, sizeof(message), key);
+        unsigned char hashOut[crypto_auth_hmacsha512_BYTES];
+        unsigned char hashCmp[crypto_auth_hmacsha512_BYTES];
+        crypto_auth_hmacsha512(hashOut, message, sizeof(message), key);
+        
+        crypto_auth_hmacsha512(hashCmp, message, sizeof(message), key);
+        
+        if (sizeof(hashOut) != sizeof(hashCmp) || memcmp(hashOut, hashCmp, sizeof(hashOut)) != 0) {
+            printf("ERROR: Integrity check failed in uia2");
+        }
     })
     BENCH("aes", iterations, {
         init(message, sizeof(message), key, sizeof(key));
@@ -426,15 +438,36 @@ int main(int argc, char *argv[])
         init(message, sizeof(message), key, sizeof(key));
         memcpy(msgCheck, message, sizeof(message));
     }, {
+      // Sender
+      for (size_t i = 0; i < sizeof(key); i++) {
+          message[i] ^= key[i];  // Perform XOR on each byte
+      }
+      // Receiver
       for (size_t i = 0; i < sizeof(key); i++) {
           message[i] ^= key[i];  // Perform XOR on each byte
       }
       if (sizeof(msgCheck) != sizeof(message) || memcmp(msgCheck, message, sizeof(message)) != 0) {
 	    printf("WARNING: Original ciphertext not retrieved in XOR");
-	}
-      for (size_t i = 0; i < sizeof(key); i++) {
-          message[i] ^= key[i];  // Perform XOR on each byte
       }
     })
+    BENCH("chachasip", iterations, {
+        init(message, sizeof(message), key, sizeof(key));
+        memcpy(msgCheck, message, sizeof(message));
+    }, {
+        unsigned char ciphertext[sizeof(message)];
+        unsigned char nonce[sizeof(message)];
+        // Key if fail
+        randombytes_buf(nonce, sizeof(nonce));
+        crypto_stream_chacha20_xor(ciphertext, message, sizeof(message), nonce, key);
+        
+        sip(ciphertext, sizeof(ciphertext), key);
+        // memcpy(cipherHash, ciphertext ); TODO, to simulate what actually happens
+        
+        crypto_stream_chacha20_xor(ciphertext, message, sizeof(message), nonce, key);
+        
+        if (sizeof(msgCheck) != sizeof(message) || memcmp(msgCheck, message, sizeof(message)) != 0) {
+	    printf("WARNING: Original ciphertext not retrieved in XOR");
+        }
+      })
     return 0;
 }

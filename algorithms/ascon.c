@@ -31,3 +31,7 @@ void ascon(uint8_t *message, int message_length, uint8_t *additional_data, int a
     }
     
 }
+
+int main(int argc, char *argv[]) {
+    ascon(argv[1], atoi(argv[2]), argv[3], atoi(argv[4]), atoi(argv[5]), argv[6]);
+}

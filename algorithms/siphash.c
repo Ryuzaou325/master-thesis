@@ -3,7 +3,7 @@
 #include "../libs/SipHash/SipHash/siphash.h"
 #include <stdio.h>
 
-void sip(uint8_t *message, unsigned int message_length, uint8_t *key) {
+  void sip(uint8_t *message, unsigned int message_length, uint8_t *key) {
     
     uint8_t hashOut[8];
     siphash(message, message_length, key, hashOut, sizeof(hashOut));
