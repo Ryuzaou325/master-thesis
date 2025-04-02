@@ -427,12 +427,14 @@ int main(int argc, char *argv[])
 
 	unsigned char decrypted[sizeof(message)];
 	unsigned long long decrypted_len;
-	int result = crypto_aead_aes256gcm_decrypt(
+	if(ciphertext_len < crypto_aead_aes256gcm_ABYTES || crypto_aead_aes256gcm_decrypt(
 	    decrypted, &decrypted_len,
 	    NULL,
 	    ciphertext, ciphertext_len,
 	    additional_data, sizeof(additional_data),
-	    nonce, key);
+	    nonce, key) != 0) {
+			printf("Message forged!");
+		}
     })
     BENCH("xor", iterations, {
         init(message, sizeof(message), key, sizeof(key));
